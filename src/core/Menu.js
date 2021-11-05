@@ -21,15 +21,26 @@ const Menu = ({ history }) => {
         </li>
 
         {isAuthenticated() && isAuthenticated().user.role === 0 && (
-          <li className="nav-item">
-            <Link
-              style={currentTab(history, "/user/dashboard")}
-              className="nav-link"
-              to="/user/dashboard"
-            >
-              DashBoard
-            </Link>
-          </li>
+          <Fragment>
+            <li className="nav-item">
+              <Link
+                style={currentTab(history, "/user/dashboard")}
+                className="nav-link"
+                to="/user/dashboard"
+              >
+                DashBoard
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                style={currentTab(history, "/user/profile")}
+                className="nav-link"
+                to="/user/profile"
+              >
+                Profile
+              </Link>
+            </li>
+          </Fragment>
         )}
 
         {isAuthenticated() && isAuthenticated().user.role === 1 && (
@@ -57,7 +68,7 @@ const Menu = ({ history }) => {
         {isAuthenticated() && isAuthenticated().user.role === 3 && (
           <li className="nav-item">
             <Link
-              style={currentTab(history, "/manager/dashboard")}
+              style={currentTab(history, "/admin/dashboard")}
               className="nav-link"
               to="/admin/dashboard"
             >
@@ -90,19 +101,22 @@ const Menu = ({ history }) => {
         )}
 
         {isAuthenticated() && (
-          <li className="nav-item">
-            <span
-              style={currentTab(history, "/signout")}
-              className="nav-link text-warning"
-              onClick={() => {
-                signout(() => {
-                  history.push("/");
-                });
-              }}
-            >
-              Sign Out
-            </span>
-          </li>
+          <Fragment>
+            <li className="nav-item">
+              <span
+                style={currentTab(history, "/signout")}
+                className="nav-link text-warning"
+                onClick={() => {
+                  signout(() => {
+                    history.push("/");
+                  });
+                }}
+              >
+                Sign Out
+              </span>
+            </li>
+
+          </Fragment>
         )}
       </ul>
     </div>

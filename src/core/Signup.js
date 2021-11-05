@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Base from "../core/Base";
+import Base from "./Base";
 import { Link } from "react-router-dom";
 import { signup } from "../auth/helper/index";
 const Signup = () => {
@@ -149,7 +149,7 @@ const Signup = () => {
       {successMessage()}
       {errorMessage()}
       {signupForm()}
-      <p className="text-white text-center">{JSON.stringify(values)}</p>
+      {/* <p className="text-white text-center">{JSON.stringify(values)}</p> */}
     </Base>
   );
 };

@@ -27,7 +27,7 @@ const Signin = () => {
     signin({ email, password })
       .then(data => {
         if (data.error) {
-          setValues({ ...values, error: true, loading: false });
+          setValues({ ...values, error: data.error, loading: false });
         } else {
           authenticate(data, () => {
             setValues({ ...values, didRedirect: true });
@@ -40,8 +40,15 @@ const Signin = () => {
   const performRedirect = () => {
     if (didRedirect) {
       if (user && user.role === 1) {
+        return <Redirect to="/manager/dashboard" />;
+      }
+      else if (user && user.role === 2) {
+        return <Redirect to="/doctor/dashboard" />;
+      }
+      else if (user && user.role === 3) {
         return <Redirect to="/admin/dashboard" />;
-      } else {
+      }
+      else {
         return <Redirect to="/user/dashboard" />;
       }
     }
@@ -122,7 +129,7 @@ const Signin = () => {
       {errorMessage()}
       {signinForm()}
       {performRedirect()}
-      <p className="text-white text-center"> {JSON.stringify(values)} </p>
+      {/* <p className="text-white text-center"> {JSON.stringify(values)} </p> */}
     </Base>
   );
 };

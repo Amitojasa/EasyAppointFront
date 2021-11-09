@@ -15,7 +15,13 @@ const AdminDashboard = () => {
       description="Manage all your products here"
       className="container bg-success p-4"
     >
+      <Link
+        // className="dashboard-dash-dlink dashboard-dash-cursor"
 
+        to="/admin/createuser"
+      >
+        Add Staff
+      </Link>
     </Base>
   );
 };

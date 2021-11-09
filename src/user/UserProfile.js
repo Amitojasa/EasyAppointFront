@@ -133,7 +133,7 @@ const UserProfile = () => {
             <h4>User updation failed</h4>
         </div>
     );
-    const createProductForm = () => (
+    const profileForm = () => (
         <form>
 
             <div className="form-group">
@@ -243,7 +243,7 @@ const UserProfile = () => {
                     {successMessage()}
                     {errorMessage()}
                     {changePassword()}
-                    {createProductForm()}
+                    {profileForm()}
                 </div>
             </div>
         </Base>

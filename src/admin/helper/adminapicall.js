@@ -1,4 +1,4 @@
-// import { API } from "../../backend";
+import { API } from "../../backend";
 
 // //category calls
 // export const createCategory = (userId, token, category) => {
@@ -52,24 +52,24 @@
 //     .catch(err => console.log(err));
 // };
 
-// //Product calls
+// //User calls
 
-// //createproduct
-// export const createProduct = (userId, token, product) => {
-//   return fetch(`${API}/product/create/${userId}`, {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       // "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`
-//     },
-//     body: product
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(err => console.log(err));
-// };
+//create User
+export const createStaff = (userId, token, user) => {
+    return fetch(`${API}/user/create/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: user
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // //get all products
 // export const getProducts = () => {

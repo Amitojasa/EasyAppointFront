@@ -13,6 +13,8 @@ import ManagerRoute from "./auth/helper/ManagerRoutes";
 import DoctorRoute from "./auth/helper/DoctorRoutes";
 import UserProfile from "./user/UserProfile";
 import CreateUser from "./admin/CreateUser";
+import ManageStaff from "./admin/ManageStaff";
+import UpdateUser from "./admin/UpdateUser";
 
 function Routes() {
     return (
@@ -23,6 +25,9 @@ function Routes() {
                 <Route path="/signin" exact component={Signin} />
 
                 <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
+                <AdminRoute path="/admin/managestaff" exact component={ManageStaff} />
+                <AdminRoute path="/admin/user/update/:userId" exact component={UpdateUser} />
+
                 <AdminRoute path="/admin/createuser" exact component={CreateUser} />
                 <DoctorRoute path="/doctor/dashboard" exact component={DoctorDashboard} />
                 <ManagerRoute path="/manager/dashboard" exact component={ManagerDashboard} />

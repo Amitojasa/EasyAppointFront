@@ -72,59 +72,83 @@ export const createStaff = (userId, token, user) => {
 };
 
 // //get all products
-// export const getProducts = () => {
-//   return fetch(`${API}/products`, {
-//     method: "GET"
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(err => console.log(err));
-// };
+export const getManagers = () => {
+    return fetch(`${API}/users/managers`, {
+        method: "GET",
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const getDoctors = () => {
+    return fetch(`${API}/users/doctors`, {
+        method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+export const getUsers = () => {
+    return fetch(`${API}/users`, {
+        method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // //get a product
 
-// export const getProduct = productId => {
-//   return fetch(`${API}/product/${productId}`, {
-//     method: "GET"
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(err => console.log(err));
-// };
+export const getUser = (UserId, adminUserId, token) => {
+    return fetch(`${API}/user/${UserId}/${adminUserId}`, {
+        method: "GET",
+        headers: {
 
-// //update a product
-// export const updateProduct = (productId, userId, token, product) => {
-//   return fetch(`${API}/product/${productId}/${userId}`, {
-//     method: "PUT",
-//     headers: {
-//       Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
-//       Authorization: `Bearer ${token}`
-//     },
-//     body: product
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(err => console.log(err));
-// };
+// //update a user
+export const updateUser = (toUpdateUserId, userId, token, user) => {
+    return fetch(`${API}/user/${toUpdateUserId}/${userId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: user
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // //delete a product
-// export const deleteProduct = (productId, userId, token) => {
-//   return fetch(`${API}/product/${productId}/${userId}`, {
-//     method: "DELETE",
-//     headers: {
-//       Accept: "application/json",
-//       Authorization: `Bearer ${token}`
-//     }
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .catch(err => console.log(err));
-// };
+export const deleteUser = (productId, userId, token) => {
+    return fetch(`${API}/user/${productId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 // export const deleteCategory = (categoryId, userId, token) => {
 //   return fetch(`${API}/category/${categoryId}/${userId}`, {

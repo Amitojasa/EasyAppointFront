@@ -15,14 +15,44 @@ const AdminDashboard = () => {
       description="Manage all your products here"
       className="container bg-success p-4"
     >
-      <Link
-        // className="dashboard-dash-dlink dashboard-dash-cursor"
+      <ul>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
 
-        to="/admin/createuser"
-      >
-        Add Staff
-      </Link>
-    </Base>
+            to="/admin/createuser"
+          >
+            Add Staff
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/admin/managestaff",
+
+              state: { role: 2 }
+            }}
+          >
+            Manage Doctors
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/admin/managestaff",
+
+              state: { role: 1 }
+            }}
+          >
+            Manage Managers
+          </Link>
+        </li>
+      </ul>
+    </Base >
   );
 };
 

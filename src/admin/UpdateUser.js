@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base';
-import { createStaff } from './helper/adminapicall';
 
-function CreateUser() {
+import { updateUser, getUser } from './helper/adminapicall';
+
+function CreateUser({ match }) {
     const ref = React.useRef();
     const { user, token } = isAuthenticated();
     const [values, setValues] = useState({
+        userId: "",
         name: "",
         email: "",
         password: "",
@@ -19,13 +21,14 @@ function CreateUser() {
         address: "",
         phone: "",
         error: "",
-        createdUser: "",
+        updatedUser: "",
         getaRedirect: false,
         formData: new FormData()
     });
 
     const {
         name,
+        userId,
         email,
         password,
         dob,
@@ -36,7 +39,7 @@ function CreateUser() {
         loading,
         photo,
         role,
-        createdUser,
+        updatedUser,
         getaRedirect,
         address,
         formData } = values;
@@ -51,34 +54,64 @@ function CreateUser() {
     const onSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: "", loading: true });
-        createStaff(user._id, token, formData)
+        updateUser(userId, user._id, token, formData)
             .then(data => {
                 if (data.error) {
                     setValues({ ...values, error: data.error, success: false });
                     console.log(error);
                 } else {
                     ref.current.value = ""
+
                     setValues({
                         ...values,
-                        name: "",
-                        email: "",
-                        password: "",
-                        dob: "",
-                        gender: "",
+                        name: data.name,
+                        phone: data.phone,
+                        dob: data.dob,
+                        gender: data.gender,
+                        address: data.address,
+                        email: data.email,
+                        photo: data.photo,
+                        role: data.role,
                         error: "",
-                        photo: "",
-                        address: "",
-                        phone: "",
                         success: true,
-                        createdUser: data.name,
-                        loading: false
+                        updatedUser: data.name,
+                        loading: false,
+                        formData: new FormData()
                     });
+                    // console.log("panga")
                 }
             })
-            .catch(console.log("Error in creating user"));
+            .catch(err => console.log(err + "Error in updating user!!!"));
+    };
+    const preload = userId => {
+        getUser(userId, user._id, token).then(data => {
+
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+
+                setValues({
+                    ...values,
+
+                    // formData: new FormData(),
+                    userId: data._id,
+                    name: data.name,
+                    phone: data.phone,
+                    dob: data.dob,
+                    gender: data.gender,
+                    address: data.address,
+                    email: data.email,
+                    photo: data.photo,
+                    role: data.role
+                });
+            }
+        });
     };
 
-    const creationForm = () => {
+    useEffect(() => {
+        preload(match.params.userId);
+    }, []);
+    const updationForm = () => {
         return (
             <div className="row">
                 <div className="offset-sm-3 col-md-6 text-left">
@@ -153,17 +186,7 @@ function CreateUser() {
                                 value={phone}
                             />
                         </div>
-                        <div className="form-group">
-                            <label className="text-light">Password</label>
-                            <input
-                                className="form-control"
-                                type="password"
-                                name="password"
-                                placeholder="password"
-                                onChange={handleChange("password")}
-                                value={password}
-                            />
-                        </div>
+
                         <div className="form-group">
                             <label for="address">address</label>
                             <textarea
@@ -198,9 +221,9 @@ function CreateUser() {
     const successMessage = () => (
         <div
             className="alert alert-success mt-3"
-            style={{ display: createdUser ? "" : "none" }}
+            style={{ display: updatedUser ? "" : "none" }}
         >
-            <h4>{createdUser} created successfully</h4>
+            <h4>{updatedUser} updated successfully</h4>
         </div>
     );
     const errorMessage = () => (
@@ -208,16 +231,16 @@ function CreateUser() {
             className="alert alert-danger mt-3"
             style={{ display: error ? "" : "none" }}
         >
-            <h4>User creation failed</h4>
+            <h4>User updation failed</h4>
         </div>
     );
 
 
     return (
-        <Base title="create staff page" description="A page to add staff">
+        <Base title="update staff page" description="A page to add staff">
             {successMessage()}
             {errorMessage()}
-            {creationForm()}
+            {updationForm()}
             {/* <p className="text-white text-center">{JSON.stringify(values)}</p> */}
         </Base>
     )

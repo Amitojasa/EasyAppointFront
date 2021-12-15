@@ -13,6 +13,9 @@ const {
     getAdminById,
     updateFormUser
 } = require("../controllers/user");
+const {
+    addPatient
+} = require("../controllers/patient");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { check } = require("express-validator");
 
@@ -35,8 +38,13 @@ router.post("/changepassword/:userId", [
 
 
 
-router.post(
-    "/user/create/:adminId", isAdmin, createUser);
+router.post("/user/create/:adminId", isAdmin, createUser);
+
+
+
+router.post("/addpatient/:userId", [
+], isSignedIn, isAuthenticated, addPatient);
+
 
 
 module.exports = router;

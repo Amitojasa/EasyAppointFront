@@ -11,6 +11,7 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const patientRoutes = require("./routes/patient");
 
 
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", patientRoutes);
 
 
 //Port

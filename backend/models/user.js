@@ -42,6 +42,8 @@ var userSchema = new mongoose.Schema(
             unique: true
         },
 
+        patients: [{ type: ObjectId, ref: "Patient" }],
+
         // admin=3,doctor=2, manager=1, patient=0
         role: {
             type: Number,

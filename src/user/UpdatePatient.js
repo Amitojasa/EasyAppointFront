@@ -2,46 +2,42 @@ import React, { useEffect, useState } from 'react'
 import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base';
 
-import { updateUser, getUser } from './helper/adminapicall';
+import { updatePatient, getPatient } from './helper/patientapicalls';
 
-function UpdateUser({ match }) {
+function UpdatePatient({ match }) {
     const ref = React.useRef();
     const { user, token } = isAuthenticated();
     const [values, setValues] = useState({
-        userId: "",
+        patientId: "",
         name: "",
-        email: "",
-        password: "",
+
         dob: "",
         gender: "",
-        photo: "",
+        // photo: "",
         success: false,
         loading: false,
-        role: "",
-        address: "",
-        phone: "",
+
         error: "",
-        updatedUser: "",
+        updatedPatient: "",
         getaRedirect: false,
         formData: new FormData()
     });
 
     const {
         name,
-        userId,
-        email,
-        password,
+        patientId,
+
         dob,
         gender,
         error,
-        phone,
+
         success,
         loading,
-        photo,
-        role,
-        updatedUser,
+        // photo,
+
+        updatedPatient,
         getaRedirect,
-        address,
+
         formData } = values;
 
     const handleChange = name => event => {
@@ -54,7 +50,7 @@ function UpdateUser({ match }) {
     const onSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: "", loading: true });
-        updateUser(userId, user._id, token, formData)
+        updatePatient(patientId, user._id, token, formData)
             .then(data => {
                 if (data.error) {
                     setValues({ ...values, error: data.error, success: false });
@@ -74,7 +70,7 @@ function UpdateUser({ match }) {
                         role: data.role,
                         error: "",
                         success: true,
-                        updatedUser: data.name,
+                        updatedPatient: data.name,
                         loading: false,
                         formData: new FormData()
                     });
@@ -83,8 +79,8 @@ function UpdateUser({ match }) {
             })
             .catch(err => console.log(err + "Error in updating user!!!"));
     };
-    const preload = userId => {
-        getUser(userId, user._id, token).then(data => {
+    const preload = patientId => {
+        getPatient(patientId, user._id, token).then(data => {
 
             if (data.error) {
                 setValues({ ...values, error: data.error });
@@ -94,29 +90,25 @@ function UpdateUser({ match }) {
                     ...values,
 
                     // formData: new FormData(),
-                    userId: data._id,
+                    patientId: data._id,
                     name: data.name,
-                    phone: data.phone,
                     dob: data.dob,
                     gender: data.gender,
-                    address: data.address,
-                    email: data.email,
-                    photo: data.photo,
-                    role: data.role
+                    // photo: data.photo,
                 });
             }
         });
     };
 
     useEffect(() => {
-        preload(match.params.userId);
+        preload(match.params.patientId);
     }, []);
     const updationForm = () => {
         return (
             <div className="row">
                 <div className="offset-sm-3 col-md-6 text-left">
                     <form action="">
-                        <span>Post photo</span>
+                        {/* <span>Post photo</span>
                         <div className="form-group">
                             <label className="btn btn-block btn-success">
                                 <input
@@ -128,7 +120,7 @@ function UpdateUser({ match }) {
                                     ref={ref}
                                 />
                             </label>
-                        </div>
+                        </div> */}
                         <div className="form-group">
                             <label className="text-light">Name</label>
                             <input
@@ -151,9 +143,9 @@ function UpdateUser({ match }) {
                                 value={dob}
                             />
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                             <label for="sel1">Gender</label>
-                            <select class="form-control" id="sel1" name="dob"
+                            <select className="form-control" id="sel1" name="dob"
                                 required
                                 onChange={handleChange("gender")}
                                 value={gender} >
@@ -163,52 +155,11 @@ function UpdateUser({ match }) {
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        <div className="form-group">
-                            <label className="text-light">E-mail</label>
-                            <input
-                                className="form-control"
-                                type="email"
-                                name="email"
-                                placeholder="E-mail"
-                                onChange={handleChange("email")}
-                                value={email}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label for="phone">Phone</label>
 
-                            <input
-                                type="tel"
-                                onChange={handleChange("phone")}
-                                name="phone"
-                                className="form-control"
-                                placeholder="Phone"
-                                value={phone}
-                            />
-                        </div>
 
-                        <div className="form-group">
-                            <label for="address">address</label>
-                            <textarea
-                                onChange={handleChange("address")}
-                                name="address"
-                                className="form-control"
-                                placeholder="Address"
-                                value={address}
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="sel2">Role</label>
-                            <select class="form-control" id="sel2" name="role"
-                                required
-                                onChange={handleChange("role")}
-                                value={role} >
-                                <option value="">Select Role</option>
-                                <option value="2"  >Doctor</option>
-                                <option value="1">Manager</option>
 
-                            </select>
-                        </div>
+
+
                         <button onClick={onSubmit} className="btn btn-success btn-block">
                             Submit
                         </button>
@@ -221,9 +172,9 @@ function UpdateUser({ match }) {
     const successMessage = () => (
         <div
             className="alert alert-success mt-3"
-            style={{ display: updatedUser ? "" : "none" }}
+            style={{ display: updatedPatient ? "" : "none" }}
         >
-            <h4>{updatedUser} updated successfully</h4>
+            <h4>{updatedPatient} updated successfully</h4>
         </div>
     );
     const errorMessage = () => (
@@ -231,7 +182,7 @@ function UpdateUser({ match }) {
             className="alert alert-danger mt-3"
             style={{ display: error ? "" : "none" }}
         >
-            <h4>User updation failed</h4>
+            <h4>Patient updation failed</h4>
         </div>
     );
 
@@ -246,4 +197,4 @@ function UpdateUser({ match }) {
     )
 }
 
-export default UpdateUser
+export default UpdatePatient

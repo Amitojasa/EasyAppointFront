@@ -61,13 +61,10 @@ function UpdatePatient({ match }) {
                     setValues({
                         ...values,
                         name: data.name,
-                        phone: data.phone,
+
                         dob: data.dob,
                         gender: data.gender,
-                        address: data.address,
-                        email: data.email,
-                        photo: data.photo,
-                        role: data.role,
+
                         error: "",
                         success: true,
                         updatedPatient: data.name,

@@ -36,23 +36,72 @@ exports.getPatient = (req, res) => {
 };
 
 exports.updatePatient = (req, res) => {
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, file) => {
 
-    Patient.findByIdAndUpdate(
-        { _id: req.patient._id },
-        { $set: req.body },
-        { new: true, useFindAndModify: false },
-        (err, ptnt) => {
-            if (err || !ptnt) {
-                return res.status(400).json({
-                    error: "Update failed"
-                });
+        if (err) {
+            return res.status(400).json({
+                error: "Some problem whith form"
+            });
+        }
+
+        //updation
+        let patient = req.patient;
+
+
+
+
+        patient = _.extend(patient, fields);
+
+
+
+        //handle file here
+        if (file.photo) {
+            try {
+                fs.unlinkSync('uploads/' + patient.photo);
+            } catch (err) {
+                console.log("file not found")
             }
 
-            ptnt.createdAt = undefined;
 
-            res.json(ptnt);
+
+            var fur = uploadFileFunc(file);
+
+            if (fur.error) {
+                return res.status(400).json({
+                    error: fur.error
+                })
+            }
+
+            var newPath1 = fur;
+            var newPath = 'uploads/' + newPath1
+
+
+            patient.photo = newPath1;
+
         }
-    );
+
+        // //save to db
+
+        patient.save((err, patient) => {
+            if (err) {
+                // try {
+                //     fs.unlinkSync(newPath);
+                // } catch (err) {
+                //     console.log("file not found")
+                // }
+
+                res.status(400).json({
+                    error: "updating user in DB failed!!"
+                });
+            }
+            res.json({
+                message: "user updated successfully",
+                patient
+            })
+        });
+    });
 };
 
 

@@ -44,6 +44,10 @@ var patientSchema = new mongoose.Schema(
 
             trim: true,
             ref: 'User'
+        },
+        prescribtion: {
+            type: String,
+            maxlength: 1000
         }
 
     },

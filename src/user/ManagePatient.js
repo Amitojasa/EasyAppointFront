@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
 import { getPatients, deletePatient } from "./helper/patientapicalls";
+import Prescribtion from "./Prescribtion";
 export default function ManagePatient() {
     const [patients, setUsers] = useState([]);
     const [patientsSize, setUsersSize] = useState(0)
     const { user, token } = isAuthenticated();
     const [loading, setLoading] = useState(true);
     const [userType, setUserType] = useState("")
+    const [PrescribtionPatientId, setPrescribtionPatientId] = useState(null)
 
 
     useEffect(() => {
@@ -45,12 +47,33 @@ export default function ManagePatient() {
         });
     };
 
+
+
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = useCallback(() => {
+        setShow(false);
+    }, [show]);
+
+    const handlePrescribtion = (pid) => {
+        setShow(true);
+        setPrescribtionPatientId(pid);
+    }
+
+    const HandlePrescribtionShow = () => {
+        return <>{show ? <Prescribtion handleClose={handleClose} patientId={PrescribtionPatientId} /> : null}</>;
+    };
+
+
+
     return (
         <Base title="Welcome User" description="Manage patients here">
             <h2 className="mb-4">All {userType}:</h2>
             <Link className="btn btn-info" to={`/user/dashboard`}>
                 <span className="">User Home</span>
             </Link>
+            {HandlePrescribtionShow()}
             <div className="row">
                 <div className="col-12">
 
@@ -74,16 +97,14 @@ export default function ManagePatient() {
                                         <span className="">Update</span>
                                     </Link>
                                 </div>
-                                {/* <div className="col-2">
+                                <div className="col-2">
                                     <button
-                                        onClick={() => {
-                                            deleteThisUser(patient._id);
-                                        }}
+                                        onClick={() => handlePrescribtion(patient._id)}
                                         className="btn btn-danger"
                                     >
-                                        Delete
+                                        Prescribtion
                                     </button>
-                                </div> */}
+                                </div>
                                 <div className="col-2">
                                     <button
                                         // onClick={() => {

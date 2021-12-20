@@ -18,6 +18,7 @@ import UpdateUser from "./admin/UpdateUser";
 import AddPatient from "./user/AddPatient";
 import ManagePatient from "./user/ManagePatient";
 import UpdatePatient from "./user/UpdatePatient";
+import ManageDoctorPatient from "./doctor/ManageDoctorPatients";
 
 function Routes() {
     return (
@@ -33,6 +34,7 @@ function Routes() {
 
                 <AdminRoute path="/admin/createuser" exact component={CreateUser} />
                 <DoctorRoute path="/doctor/dashboard" exact component={DoctorDashboard} />
+                <DoctorRoute path="/doctor/managepatients" exact component={ManageDoctorPatient} />
                 <ManagerRoute path="/manager/dashboard" exact component={ManagerDashboard} />
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
                 <PrivateRoute path="/user/profile" exact component={UserProfile} />

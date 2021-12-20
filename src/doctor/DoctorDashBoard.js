@@ -15,7 +15,17 @@ const DoctorDashboard = () => {
             description="Manage all your patients here"
             className="container bg-success p-4"
         >
+            <ul>
+                <li className="nav-item">
+                    <Link
 
+
+                        to="/doctor/managepatients"
+                    >
+                        Manage patients
+                    </Link>
+                </li>
+            </ul>
         </Base>
     );
 };

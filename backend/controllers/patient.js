@@ -199,3 +199,14 @@ exports.getPatients = (req, res) => {
         res.json(user.patients);
     });
 }
+exports.getAllPatients = (req, res) => {
+
+    Patient.find().exec((err, ptnts) => {
+        if (err) {
+            return res.status(400).json({
+                error: "No User Found"
+            });
+        }
+        res.json(ptnts);
+    });
+}

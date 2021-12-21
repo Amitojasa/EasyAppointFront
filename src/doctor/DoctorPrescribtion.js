@@ -83,6 +83,7 @@ function DoctorPrescribtion({ handleClose, patientId }) {
         );
     };
 
+
     const [values, setValues] = useState({
         prescribtion: "",
         error: false,
@@ -96,6 +97,48 @@ function DoctorPrescribtion({ handleClose, patientId }) {
         loading,
         success
     } = values;
+
+    const handlePrescribtionChange = (event) => {
+        setValues({ ...values, error: false, prescribtion: event.target.value });
+    };
+
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        setValues({ ...values, error: false, loading: true });
+        console.log(values.prescribtion)
+        fetch(`${API}/setprescribtion/${user._id}/${patientId}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prescribtion: values.prescribtion }),
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                if (!response.error) {
+                    setValues({ ...values, loading: false, success: true });
+
+                    handleClose();
+
+                } else {
+                    setValues({ ...values, error: true, loading: false });
+
+                }
+
+            })
+
+            .catch((e) => {
+                setValues({ ...values, loading: false, success: false, error: true });
+
+                console.log(e)
+
+            });
+
+    };
 
     const getPatientPrescribtion = (pid, uid) => {
         getPatient(pid, uid, token).then(data => {
@@ -171,7 +214,7 @@ function DoctorPrescribtion({ handleClose, patientId }) {
                                 InputProps={{
                                     className: classes.input,
                                 }}
-                                onChange={() => handlePrescribtion}
+                                onChange={handlePrescribtionChange}
                             />
                             <div style={{ textAlign: 'center' }}>
                                 <Button
@@ -182,7 +225,7 @@ function DoctorPrescribtion({ handleClose, patientId }) {
                                     mx="auto"
                                     style={{ padding: "7px 15px", fontSize: "1.05rem" }}
                                 >
-                                    Change Password
+                                    Submit prescribtion
                                 </Button>
                             </div>
                         </div>

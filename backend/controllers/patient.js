@@ -105,6 +105,29 @@ exports.updatePatient = (req, res) => {
 };
 
 
+exports.updatePatientPrescribtion = (req, res) => {
+    const { prescribtion } = req.body;
+    console.log(req.body);
+    const id = req.patient._id;
+
+
+    Patient.findOneAndUpdate(
+        { _id: id },
+        { $set: { prescribtion: prescribtion } },
+        (err, ptnt) => {
+
+            if (err) {
+                return res.status(400).json({ error: 'Failed' })
+            }
+
+            return res.status(200).json({
+                patient: ptnt
+            })
+        }
+    )
+
+};
+
 exports.addPatient = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;

@@ -12,7 +12,7 @@ const {
     getPatientById,
     getPatient,
     getAllPatients,
-    updatePatient
+    updatePatient, updatePatientPrescribtion
 } = require("../controllers/patient");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 
@@ -30,5 +30,6 @@ router.post("/patient/create/:userId", [
 
 router.get("/patient/:patientId/:userId", isSignedIn, isAuthenticated, getPatient);
 router.put("/patient/:patientId/:userId", isSignedIn, isAuthenticated, updatePatient);
+router.put("/setprescribtion/:userId/:patientId", isSignedIn, isAuthenticated, updatePatientPrescribtion);
 
 module.exports = router;

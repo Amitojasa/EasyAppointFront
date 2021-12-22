@@ -2,6 +2,7 @@ import React from "react";
 import Base from "../core/Base";
 import { isAuthenticated } from "../auth/helper/index";
 import { Link } from "react-router-dom";
+import '../core/user.css'
 const DoctorDashboard = () => {
     const {
         user: { name, email, role }
@@ -13,9 +14,9 @@ const DoctorDashboard = () => {
         <Base
             title="Doctor Dashboard"
             description="Manage all your patients here"
-            className="container bg-success p-4"
+
         >
-            <ul>
+            <ul className="user-menu">
                 <li className="nav-item">
                     <Link
 

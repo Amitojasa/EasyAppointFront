@@ -2,7 +2,7 @@ import React from "react";
 import Base from "../core/Base";
 import { isAuthenticated } from '../auth/helper/index'
 import { Link } from "react-router-dom";
-
+import '../core/user.css'
 
 const UserDashboard = () => {
   const {
@@ -13,8 +13,7 @@ const UserDashboard = () => {
 
   return (
     <Base title="User Dashboard">
-      <h1>This is User Dashboard</h1>
-      <ul>
+      <ul className="user-menu">
         <li className="nav-item">
           <Link
 

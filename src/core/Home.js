@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles.css";
 import { API } from "../backend";
 import Base from "./Base";
-
+import homeimg from './home.png'
 function Home() {
   // const [products, setProducts] = useState([]);
   // const [error, seterror] = useState(false);
@@ -22,7 +22,7 @@ function Home() {
   // }, []);
 
   return (
-    <Base title="Home Page" description="Welcome to Home Page">
+    <Base title="EasyAppoint" description={<img src={homeimg} alt="" className="img img-fluid" />}>
 
     </Base>
   );

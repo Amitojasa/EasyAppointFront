@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base';
 import { createPatient } from './helper/patientapicalls';
@@ -148,7 +149,10 @@ function AddPatient() {
 
 
     return (
-        <Base title="create staff page" description="A page to add staff">
+        <Base title="create Patient page" description="Add patient">
+            <Link className="btn btn-info" to={`/user/dashboard`}>
+                <span className="">User Home</span>
+            </Link>
             {successMessage()}
             {errorMessage()}
             {loading && <p>Loading...</p>}

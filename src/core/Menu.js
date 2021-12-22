@@ -14,9 +14,10 @@ const Menu = ({ history }) => {
   return (
     <div>
       <ul className="nav nav-tabs bg-dark">
+
         <li className="nav-item">
           <Link style={currentTab(history, "/")} className="nav-link" to="/">
-            Home
+            EasyAppoint
           </Link>
         </li>
 

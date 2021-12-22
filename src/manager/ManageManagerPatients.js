@@ -2,16 +2,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
-import { getAllPatients } from "./helper/doctorapicalls";
-import DoctorPrescribtion from "./DoctorPrescribtion";
-export default function ManageDoctorPatient() {
+import { getAllPatients } from "../doctor/helper/doctorapicalls";
+import Prescribtion from "../user/Prescribtion";
+export default function ManageManagerPatients() {
     const [patients, setUsers] = useState([]);
     const [patientsSize, setUsersSize] = useState(0)
     const { user, token } = isAuthenticated();
     const [loading, setLoading] = useState(true);
     const [userType, setUserType] = useState("")
     const [PrescribtionPatientId, setPrescribtionPatientId] = useState(null)
-    const [patientPrescribtion, setPatientPrescribtion] = useState("")
 
 
     useEffect(() => {
@@ -49,23 +48,23 @@ export default function ManageDoctorPatient() {
         setShow(false);
     }, [show]);
 
-    const handlePrescribtion = (pid, pres) => {
+    const handlePrescribtion = (pid) => {
         setShow(true);
         setPrescribtionPatientId(pid);
-        setPatientPrescribtion(pres);
+
     }
 
     const HandlePrescribtionShow = () => {
-        return <>{show ? <DoctorPrescribtion handleClose={handleClose} patientId={PrescribtionPatientId} patientPres={patientPrescribtion} /> : null}</>;
+        return <>{show ? <Prescribtion handleClose={handleClose} patientId={PrescribtionPatientId} /> : null}</>;
     };
 
 
 
     return (
-        <Base title="Welcome User" description="Manage patients here">
+        <Base title="Welcome Manager" description="Manage patients here">
 
-            <Link className="btn btn-info" to={`/doctor/dashboard`}>
-                <span className="">Doctor Home</span>
+            <Link className="btn btn-info" to={`/manager/dashboard`}>
+                <span className="">Manager Home</span>
             </Link>
             {HandlePrescribtionShow()}
             <div className="row">
@@ -86,7 +85,7 @@ export default function ManageDoctorPatient() {
 
                                 <div className="col-2">
                                     <button
-                                        onClick={() => handlePrescribtion(patient._id, patient?.prescribtion)}
+                                        onClick={() => handlePrescribtion(patient._id)}
                                         className="btn btn-danger"
                                     >
                                         Prescribtion

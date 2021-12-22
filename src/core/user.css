@@ -1,0 +1,16 @@
+.user-menu {
+  display: flex;
+
+  list-style-type: none;
+}
+
+.user-menu li {
+  padding: 10px;
+  background-color: grey;
+
+  margin-right: 10px;
+}
+
+.user-menu li a {
+  color: white;
+}

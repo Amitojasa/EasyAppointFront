@@ -157,9 +157,9 @@ function Prescribtion({ handleClose, patientId }) {
 
                             <br />
 
-                            <span
+                            <pre><span
                                 className={classes.fontstyle}
-                            >{prescribtion}</span>
+                            >{prescribtion}</span></pre>
 
 
                         </div>

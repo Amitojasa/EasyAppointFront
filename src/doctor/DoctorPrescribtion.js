@@ -11,7 +11,7 @@ import { isAuthenticated } from '../auth/helper';
 import { getPatient } from '../user/helper/patientapicalls';
 // import './assets/css/dashres.css';
 
-function DoctorPrescribtion({ handleClose, patientId }) {
+function DoctorPrescribtion({ handleClose, patientId, patientPres }) {
     // const alert = useAlert();
     const { user, token } = isAuthenticated();
     const useStyles = makeStyles((theme) => ({
@@ -85,7 +85,7 @@ function DoctorPrescribtion({ handleClose, patientId }) {
 
 
     const [values, setValues] = useState({
-        prescribtion: "",
+        prescribtion: patientPres,
         error: false,
         loading: false,
         success: false,
@@ -203,11 +203,11 @@ function DoctorPrescribtion({ handleClose, patientId }) {
                             <TextField
                                 className={classes.fontstyle}
                                 type="text"
-                                label="Prescribe"
+
                                 variant="outlined"
                                 multiline
                                 rows={2}
-                                maxRows={4}
+                                maxRows={20}
                                 InputLabelProps={{
                                     className: classes.inputLabel,
                                 }}
@@ -215,6 +215,7 @@ function DoctorPrescribtion({ handleClose, patientId }) {
                                     className: classes.input,
                                 }}
                                 onChange={handlePrescribtionChange}
+                                value={prescribtion}
                             />
                             <div style={{ textAlign: 'center' }}>
                                 <Button

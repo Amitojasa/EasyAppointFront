@@ -86,7 +86,7 @@ export default function ManagePatient() {
                                 <div className="col-2">
                                     <h3 className="text-white text-left">{patient.patientId}</h3>
                                 </div>
-                                <div className="col-4">
+                                <div className="col-2">
                                     <h3 className="text-white text-left">{patient.name}</h3>
                                 </div>
                                 <div className="col-2">
@@ -106,14 +106,25 @@ export default function ManagePatient() {
                                     </button>
                                 </div>
                                 <div className="col-2">
-                                    <button
+                                    {/* {<button
                                         // onClick={() => {
                                         //     deleteThisUser(patient._id);
                                         // }}
                                         className="btn btn-primary"
                                     >
                                         Book
-                                    </button>
+                                    </button>} */}
+                                   <Link
+                                   className="btn btn-success"
+                                   to={`/patient/${patient._id}/appointments`}
+                                   ><span className="">View Appointments</span></Link>
+                                   
+                                </div>
+                                <div className="col-2">
+                                <Link
+                                   className="btn btn-success"
+                                   to={`/patient/${patient._id}/appointments/create`}
+                                   ><span className="">New Appointment</span></Link>
                                 </div>
                             </div>
                         );

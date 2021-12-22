@@ -1,0 +1,15 @@
+.new_appointment .doctor{
+    cursor:pointer;
+}
+.new_appointment h2{
+    text-align:center;
+}
+.doctor_list{
+    display: flex;
+}
+.doctor_list>*{
+    margin:10px;
+}
+.doctor_list>*:hover,.doctor_list>*.active{
+    box-shadow: 5px 5px 5px green;
+}

@@ -20,6 +20,8 @@ import ManagePatient from "./user/ManagePatient";
 import UpdatePatient from "./user/UpdatePatient";
 import ManageDoctorPatient from "./doctor/ManageDoctorPatients";
 import ManageManagerPatients from "./manager/ManageManagerPatients";
+import NewAppointment from "./user/BookAppointment/newAppointment";
+import MyAppointments from "./user/BookAppointment/myAppointments";
 
 function Routes() {
     return (
@@ -43,6 +45,8 @@ function Routes() {
                 <PrivateRoute path="/user/addpatient" exact component={AddPatient} />
                 <PrivateRoute path="/user/managepatients" exact component={ManagePatient} />
                 <PrivateRoute path="/patient/update/:patientId" exact component={UpdatePatient} />
+                <PrivateRoute path="/patient/:patientId/appointments/create" exact component={NewAppointment} />
+                <PrivateRoute path="/patient/:patientId/appointments" exact component={MyAppointments} />
             </Switch>
         </Router>
     );

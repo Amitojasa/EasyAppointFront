@@ -75,3 +75,37 @@ export const updatePatient = (toUpdatePatientId, userId, token, patient) => {
         })
         .catch(err => console.log(err));
 };
+
+//get appointments
+
+export const getAppointments = (patientId,token) => {
+    return fetch(`${API}/appointments/${patientId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: {patientId}
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const createAppointment=(patientId,doctorId,bookingtime,token)=>{
+    return fetch(`${API}/appointments/${patientId}/create`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({patientId,doctorId,bookingtime})
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+}

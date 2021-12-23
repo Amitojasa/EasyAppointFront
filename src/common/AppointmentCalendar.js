@@ -1,99 +1,70 @@
 import React, { useEffect, useState } from 'react';
 
-
-
-import { AppointmentPicker } from 'react-appointment-picker';
 import { getDoctors } from '../admin/helper/adminapicall';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import './style.css'
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { createAppointment } from '../user/helper/patientapicalls';
+import { isAuthenticated } from '../auth/helper';
 
-const days = [
-  [
-    { id: 1, number: 1, isSelected: true, periods: 2 },
-    { id: 2, number: 2 },
-    null,
-    { id: 3, number: '3', isReserved: true },
-    { id: 4, number: '4' },
-    null,
-    { id: 5, number: 5 },
-    { id: 6, number: 6 }
-  ],
-  [
-    { id: 7, number: 1, isReserved: true, periods: 3 },
-    { id: 8, number: 2, isReserved: true },
-    null,
-    { id: 9, number: '3', isReserved: true },
-    { id: 10, number: '4' },
-    null,
-    { id: 11, number: 5 },
-    { id: 12, number: 6 }
-  ],
-  [
-    { id: 13, number: 1 },
-    { id: 14, number: 2 },
-    null,
-    { id: 15, number: 3, isReserved: true },
-    { id: 16, number: '4' },
-    null,
-    { id: 17, number: 5 },
-    { id: 18, number: 6 }
-  ],
-  [
-    { id: 19, number: 1 },
-    { id: 20, number: 2 },
-    null,
-    { id: 21, number: 3 },
-    { id: 22, number: '4' },
-    null,
-    { id: 23, number: 5 },
-    { id: 24, number: 6 }
-  ],
-  [
-    { id: 25, number: 1, isReserved: true },
-    { id: 26, number: 2 },
-    null,
-    { id: 27, number: '3', isReserved: true },
-    { id: 28, number: '4' },
-    null,
-    { id: 29, number: 5 },
-    { id: 30, number: 6, isReserved: true }
-  ]
-];
 
 const AppointmentCalendar=(props)=>{
   const [selectedDoctor,updateDoctor]=useState(false)
-  const [slots,updateSlots]=useState(days)
+  const {patientId}=useParams()
   const [doctorList,updateDoctorList]=useState([])
   const [isLoading,setIsLoading]=useState(false)
-  const [schedule,updateSchedule]=useState(false)
-  const [isBooked,updateBookedState]=useState({status:false,text:"Process"})
+  const [date,setDate]=useState(null)
+  const [isProcessed,processed]=useState(false)
+  const { user, token } = isAuthenticated();
+  const [isBooked,updateBookingStatus]=useState(false)
+
   useEffect(()=>{
     setIsLoading(true)
     getDoctors()
       .then(
         data=>{
           console.log(data)
-          if(data.error)
-            console.log(data.error)
+          if(data.error){
+            alert(data.error)
+          } 
           else
-            setTimeout(()=>{updateDoctorList(data)
-          console.log(data)
-          setIsLoading(false)},3000)
+            updateDoctorList(data)
+          setIsLoading(false)
         }
       )
   },[])
 
-  const addAppointment=(time,addcb)=>{
-    console.log(time)
-    updateSchedule(true)
+  useEffect(()=>{
+
+  },[date])
+
+  
+
+  const proceedAppointment=()=>{
+    if(isProcessed)
+      return
+    processed(true)
+    createAppointment(patientId,selectedDoctor,date,token)
+    .then(data=>{
+      if(data.error)
+      {
+        alert(data.error)
+      }
+      else{
+        updateBookingStatus(data.message)
+      }
+      processed(false)
+      console.log(data)
+    })
+
   }
 
-  const removAppointment=(time,removecb)=>{
-    updateSchedule(false)
-  }
-
-  return isBooked.status?(
-    <div className='book_success'>
-      We have received your appointment, You'll get your confirmation soon!!
+  return isBooked?(
+    <div className='booked_appointment_state'>
+      {isBooked}
     </div>
   ):(
     <div className='new_appointment'>
@@ -116,29 +87,26 @@ const AppointmentCalendar=(props)=>{
     </div>
     {
       selectedDoctor&&(
-        <>
-        <p className='title'>Pick available schedule</p>
-        <AppointmentPicker
-          addAppointmentCallback={()=>addAppointment()}
-          //removeAppointmentCallback={()=>removAppointment()}
-          initialDay={new Date('2018-05-05')}
-          days={slots}
-          maxReservableAppointments={1}
-          alpha
-          visible
-          continuous
-          selectedByDefault
-          loading={isLoading}
-        />
-        </>
+        <div>
+        <p className='title'>Pick available date</p>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DateTimePicker
+            renderInput={(props) => <TextField {...props} />}
+            minDateTime={new Date()}
+            label="DateTimePicker"
+            value={date}
+            onChange={(value) => {
+              setDate(value);
+            }}
+          />
+        </LocalizationProvider>
+        </div>
       )
     }
     {
-      schedule&&(
-        <div className='btn btn-success' onClick={()=>{if(isBooked.text=='processing') return; updateBookedState({status:false,text:'processing...'});setTimeout(
-          ()=>{updateBookedState({status:true,text:"successful"})},3000
-        )}}>
-          {isBooked.text}
+      date&&(
+        <div className='btn btn-success' onClick={()=>proceedAppointment()}>
+          {!isProcessed?"Process":"Processing..."}
         </div>
       )
     }

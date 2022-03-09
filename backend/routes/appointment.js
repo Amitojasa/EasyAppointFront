@@ -1,13 +1,13 @@
 var express = require('express')
 var router = express.Router()
 
-const { getAllAppointments, getAppointmentsByPatientId, addAppointment, approveAppointment } = require('../controllers/appointment')
+const { getAllTestAppointments, getTestAppointmentsByPatientId, addTestAppointment } = require('../controllers/test')
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 
 
-router.get('/appointments/:patient_id', isSignedIn, getAppointmentsByPatientId)
-router.post('/appointments/:patient_id/create', isSignedIn, addAppointment)
-router.get('/appointments', getAllAppointments)
-router.put('/appointment/admin/approve', isSignedIn, isAdmin, approveAppointment)
+router.get('/pcrtest/:patient_id', isSignedIn, getTestAppointmentsByPatientId);
+router.post('/pcrtest/:patient_id/create', isSignedIn, addTestAppointment);
+router.get('/appointments', getAllTestAppointments);
+// router.put('/appointment/admin/approve', isSignedIn, isAdmin, approveAppointment)
 
 module.exports = router

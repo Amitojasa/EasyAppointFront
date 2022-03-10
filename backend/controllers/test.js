@@ -15,6 +15,9 @@ exports.getTestById = (req, res, next, id) => {
         next();
     });
 };
+exports.getTest = (req, res) => {
+    return res.json(req.test);
+};
 
 
 exports.getAllTestAppointments = (req, res) => {
@@ -93,7 +96,7 @@ exports.addTest = (req, res) => {
                 error: "NOT able to save test in DB"
             });
         }
-        res.json({ test });
+        res.json(test);
     });
 
 }

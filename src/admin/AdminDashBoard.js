@@ -51,6 +51,32 @@ const AdminDashboard = () => {
             Manage Managers
           </Link>
         </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/admin/test/create",
+
+
+            }}
+          >
+            Create Test
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/admin/managetests",
+
+
+            }}
+          >
+            Manage Tests
+          </Link>
+        </li>
       </ul>
     </Base >
   );

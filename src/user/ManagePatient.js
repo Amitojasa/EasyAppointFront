@@ -5,8 +5,8 @@ import { isAuthenticated } from "../auth/helper";
 import { getPatients, deletePatient } from "./helper/patientapicalls";
 import Prescribtion from "./Prescribtion";
 export default function ManagePatient() {
-    const [patients, setUsers] = useState([]);
-    const [patientsSize, setUsersSize] = useState(0)
+    const [patients, setPatients] = useState([]);
+    const [patientsSize, setPatientsSize] = useState(0)
     const { user, token } = isAuthenticated();
     const [loading, setLoading] = useState(true);
     const [userType, setUserType] = useState("")
@@ -14,7 +14,7 @@ export default function ManagePatient() {
 
 
     useEffect(() => {
-        setUsersSize(patients.length)
+        setPatientsSize(patients.length)
     }, [patients])
 
     const preLoad = (userId, token) => {
@@ -25,7 +25,7 @@ export default function ManagePatient() {
             if (data.error) {
                 console.log(data.error);
             } else {
-                setUsers(data);
+                setPatients(data);
             }
         });
 
@@ -114,17 +114,17 @@ export default function ManagePatient() {
                                     >
                                         Book
                                     </button>} */}
-                                   <Link
-                                   className="btn btn-success"
-                                   to={`/patient/${patient._id}/appointments`}
-                                   ><span className="">View Appointments</span></Link>
-                                   
+                                    <Link
+                                        className="btn btn-success"
+                                        to={`/patient/${patient._id}/appointments`}
+                                    ><span className="">View Appointments</span></Link>
+
                                 </div>
                                 <div className="col-2">
-                                <Link
-                                   className="btn btn-success"
-                                   to={`/patient/${patient._id}/appointments/create`}
-                                   ><span className="">New Appointment</span></Link>
+                                    <Link
+                                        className="btn btn-success"
+                                        to={`/patient/${patient._id}/appointments/create`}
+                                    ><span className="">New Appointment</span></Link>
                                 </div>
                             </div>
                         );

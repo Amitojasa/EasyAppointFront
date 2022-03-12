@@ -25,6 +25,7 @@ import MyAppointments from "./user/BookAppointment/myAppointments";
 import CreateTest from "./admin/CreateTest";
 import ManageTests from "./admin/ManageTest";
 import UpdateTest from "./admin/UpdateTest";
+import BookTest from "./user/BookTest";
 
 function Routes() {
     return (
@@ -49,6 +50,7 @@ function Routes() {
                 <PrivateRoute path="/user/profile" exact component={UserProfile} />
                 <PrivateRoute path="/user/addpatient" exact component={AddPatient} />
                 <PrivateRoute path="/user/managepatients" exact component={ManagePatient} />
+                <PrivateRoute path="/user/bookTest" exact component={BookTest} />
                 <PrivateRoute path="/patient/update/:patientId" exact component={UpdatePatient} />
                 <PrivateRoute path="/patient/:patientId/appointments/create" exact component={NewAppointment} />
                 <PrivateRoute path="/patient/:patientId/appointments" exact component={MyAppointments} />

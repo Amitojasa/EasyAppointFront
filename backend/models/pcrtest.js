@@ -10,7 +10,7 @@ var pcrTestSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        testType: {
+        testId: {
             type: ObjectId,
             ref: 'Test',
             required: true,

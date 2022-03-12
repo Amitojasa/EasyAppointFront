@@ -1,6 +1,7 @@
 const Appointment = require('../models/appointment')
 const Test = require('../models/test')
-const formidable = require('formidable')
+const formidable = require('formidable');
+const PcrTest = require('../models/pcrtest');
 
 
 exports.getTestById = (req, res, next, id) => {
@@ -136,5 +137,20 @@ exports.deleteTest = (req, res) => {
             })
         });
 
+
+}
+
+
+exports.bookTestAppointment = (req, res) => {
+
+    const test = new PcrTest(req.body);
+    test.save((err, test) => {
+        if (err) {
+            return res.status(400).json({
+                error: "NOT able to save apoointment in DB"
+            });
+        }
+        res.json(test);
+    });
 
 }

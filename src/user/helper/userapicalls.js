@@ -33,3 +33,20 @@ export const updateUser = (userId, token, data) => {
         })
         .catch(err => console.log(err));
 };
+
+export const bookTest = (userId, token, data) => {
+    return fetch(`${API}/user/booktest/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

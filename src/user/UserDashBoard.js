@@ -34,6 +34,17 @@ const UserDashboard = () => {
             Add Patient
           </Link>
         </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/user/bookTest",
+            }}
+          >
+            Book Test
+          </Link>
+        </li>
 
       </ul>
     </Base>

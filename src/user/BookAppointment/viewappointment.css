@@ -11,7 +11,7 @@ tr.approved{
 tr.pending{
     background:yellow;
 }
-tr.cancelled{
+tr.cancelled,tr.declined{
     background:red;
 }
 th,td{

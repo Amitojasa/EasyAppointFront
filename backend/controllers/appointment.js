@@ -3,7 +3,8 @@ const formidable = require('formidable')
 
 exports.getAllAppointments = (req, res) => {
 
-    Appointment.find().populate('patientId').populate('doctorId').exec((err, apts) => {
+    let status=req.params.status
+    Appointment.find({status:req.params.status}).populate('patientId').populate('doctorId').exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"
@@ -37,7 +38,16 @@ exports.addAppointment = (req, res) => {
 
 }
 
-exports.approveAppointment = (req, res) => {
+exports.updateAppointmentStatus = (req, res) => {
+    
+    Appointment.updateOne({_id:req.params.appointment_id},{$set:{status:req.params.status}}).exec((err,result)=>{
+        if(err){
+            return res.status(400).json({
+                error: "Couldn't update appointment"
+            });
+        }
+    })
+
     return res.json({ message: "Will approve the appointment" })
 }
 

@@ -27,6 +27,8 @@ import ManageTests from "./admin/ManageTest";
 import UpdateTest from "./admin/UpdateTest";
 import BookTest from "./user/BookTest";
 
+import ManagerManageAppointments from './manager/ManagerManageAppointments'
+
 function Routes() {
     return (
         <Router>
@@ -46,6 +48,7 @@ function Routes() {
                 <DoctorRoute path="/doctor/managepatients" exact component={ManageDoctorPatient} />
                 <ManagerRoute path="/manager/dashboard" exact component={ManagerDashboard} />
                 <ManagerRoute path="/manager/managepatients" exact component={ManageManagerPatients} />
+                <ManagerRoute path="/manager/manageappointments" exact component={ManagerManageAppointments} />
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
                 <PrivateRoute path="/user/profile" exact component={UserProfile} />
                 <PrivateRoute path="/user/addpatient" exact component={AddPatient} />

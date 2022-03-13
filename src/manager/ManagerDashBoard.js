@@ -30,9 +30,9 @@ const ManagerDashboard = () => {
                     <Link
 
 
-                        to="/manager/managebookings"
+                        to="/manager/manageappointments"
                     >
-                        Manage Bookings
+                        Manage Appointments
                     </Link>
                 </li>
             </ul>

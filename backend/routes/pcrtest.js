@@ -12,8 +12,8 @@ router.param("userId", getUserById);
 
 router.post('/user/booktest/:userId', isSignedIn, bookTestAppointment)
 router.post('/appointments/:patient_id/create', isSignedIn, addAppointment)
-router.get('/appointments', getAllAppointments)
-router.put('/appointment/admin/approve', isSignedIn, isAdmin, approveAppointment)
+// router.get('/appointments', getAllAppointments)
+// router.put('/appointment/admin/approve', isSignedIn, isAdmin, approveAppointment)
 
 
 router.get('/test/getall', getAllTests)

@@ -35,20 +35,20 @@ const MyAppointments=({match})=>{
                                 <th>Status</th>
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                             </tr>
                         </thead>
                         <tbody>
                             {appointments.map(
                                 (appointment,i)=>(
-                                    <tr className={appointment.isApproved?'approved':'pending'}>
+                                    <tr className={appointment.status}>
                                         <td>{i+1}</td>
                                         <td>{appointment.patientId.name}</td>
                                         <td>{appointment.patientId.dob}</td>
-                                        <td>{appointment.isApproved?'Confirmed':'Pending'}</td>
+                                        <td>{appointment.status}</td>
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{appointment.appointmentTime}</td>
-                                        <td><button>Cancel</button></td>
+                                        {/* <td><button>Cancel</button></td> */}
                                     </tr>
                                 )
                             )}

@@ -28,6 +28,7 @@ import UpdateTest from "./admin/UpdateTest";
 import BookTest from "./user/BookTest";
 
 import ManagerManageAppointments from './manager/ManagerManageAppointments'
+import DoctorAppointments from "./doctor/DoctorAppointments";
 
 function Routes() {
     return (
@@ -46,6 +47,8 @@ function Routes() {
                 <AdminRoute path="/admin/test/update/:testId" exact component={UpdateTest} />
                 <DoctorRoute path="/doctor/dashboard" exact component={DoctorDashboard} />
                 <DoctorRoute path="/doctor/managepatients" exact component={ManageDoctorPatient} />
+                <DoctorRoute path="/doctor/manageappointments" exact component={DoctorAppointments} />
+
                 <ManagerRoute path="/manager/dashboard" exact component={ManagerDashboard} />
                 <ManagerRoute path="/manager/managepatients" exact component={ManageManagerPatients} />
                 <ManagerRoute path="/manager/manageappointments" exact component={ManagerManageAppointments} />

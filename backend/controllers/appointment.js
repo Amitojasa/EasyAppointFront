@@ -42,7 +42,8 @@ exports.approveAppointment = (req, res) => {
 }
 
 exports.getAppointmentsByPatientId = (req, res) => {
-    Appointment.find({ patientId: req.body.patientId }).populate('patientId').populate('doctorId').exec((err, apts) => {
+    console.log(req)
+    Appointment.find({ patientId: req.params.patientId }).populate('patientId').populate('doctorId').exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"

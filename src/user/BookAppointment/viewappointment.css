@@ -1,0 +1,19 @@
+tr,table,th{
+    text-align:center;
+    color:black;
+}
+tr{
+    background:white;
+}
+tr.approved{
+    background:green;
+}
+tr.pending{
+    background:yellow;
+}
+tr.cancelled,tr.declined{
+    background:red;
+}
+th,td{
+    padding:10px;
+}

@@ -1,28 +1,36 @@
-import { getAppointments } from "../helper/patientapicalls"
-import { useEffect, useState } from "react"
-import { isAuthenticated } from "../../auth/helper";
-import Base from "../../core/Base";
-import './viewappointment.css'
+import React, { useEffect, useState } from "react";
+import Base from "../core/Base";
+import { isAuthenticated } from "../auth/helper/index";
+import { Link } from "react-router-dom";
+import '../core/user.css'
+import { getAllDoctorsAppointment } from "./helper/doctorapicalls";
 
-const MyAppointments=({match})=>{
+const DoctorAppointments = () => {
+    const {
+        user,token
+    } = isAuthenticated();
 
-    const { user, token } = isAuthenticated();
     const [isLoading,setIsLoading]=useState(true)
-
     const [appointments,updateAppointments]=useState([])
 
     useEffect(()=>{
-        console.log(match)
-        getAppointments(match.params.patientId,token)
-            .then(data=>{
-                updateAppointments(data)
-                setIsLoading(false)
-            })
+        setIsLoading(true)
+        getAllDoctorsAppointment(user._id,token)
+            .then(
+                data=>{
+                    updateAppointments(data)
+                    setIsLoading(false)
+                }
+            )
     },[])
 
     return (
-        <Base title="My Appointments" description="">
-            {isLoading?(
+        <Base
+            title="Upcoming appointments(Doctor Panel)"
+            description="Manage all your appointments here"
+
+        >
+        {isLoading?(
                 <p>Your appointments are being fetched</p>
             ):(
                 appointments.length?(
@@ -58,8 +66,9 @@ const MyAppointments=({match})=>{
                     <p>You have no appointments for selected patient</p>
                 )
             )}
+           
         </Base>
-    )
-}
+    );
+};
 
-export default MyAppointments
+export default DoctorAppointments;

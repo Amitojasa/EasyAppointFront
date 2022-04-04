@@ -26,6 +26,15 @@ const ManagerDashboard = () => {
                         Manage patients
                     </Link>
                 </li>
+                <li className="nav-item">
+                    <Link
+
+
+                        to="/manager/manageappointments"
+                    >
+                        Manage Appointments
+                    </Link>
+                </li>
             </ul>
         </Base>
     );

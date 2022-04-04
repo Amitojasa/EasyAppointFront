@@ -85,8 +85,7 @@ export const getAppointments = (patientId,token) => {
             Accept: "application/json",
             // "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
-        },
-        body: {patientId}
+        }
     })
         .then(response => {
             return response.json();
@@ -94,7 +93,10 @@ export const getAppointments = (patientId,token) => {
         .catch(err => console.log(err));
 };
 
+//create appointments
+
 export const createAppointment=(patientId,doctorId,bookingtime,token)=>{
+    console.log(patientId,doctorId,bookingtime)
     return fetch(`${API}/appointments/${patientId}/create`, {
         method: "POST",
         headers: {

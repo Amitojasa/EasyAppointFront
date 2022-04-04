@@ -26,6 +26,15 @@ const DoctorDashboard = () => {
                         Manage patients
                     </Link>
                 </li>
+                <li className="nav-item">
+                    <Link
+
+
+                        to="/doctor/manageappointments"
+                    >
+                        Manage appointments
+                    </Link>
+                </li>
             </ul>
         </Base>
     );

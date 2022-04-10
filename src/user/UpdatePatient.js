@@ -185,7 +185,7 @@ function UpdatePatient({ match }) {
 
 
     return (
-        <Base title="update staff page" description="A page to add staff">
+        <Base title="Update patient page" description="A page to manage patients">
             {successMessage()}
             {errorMessage()}
             {updationForm()}

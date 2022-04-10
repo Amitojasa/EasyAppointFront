@@ -171,7 +171,7 @@ function UpdateTest({ match }) {
 
 
     return (
-        <Base title="create staff page" description="A page to add staff">
+        <Base title="Manage Test page" description="A page to Manage Tests">
             {successMessage()}
             {errorMessage()}
             {creationForm()}

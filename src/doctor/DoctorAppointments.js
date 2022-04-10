@@ -10,7 +10,7 @@ const DoctorAppointments = () => {
         user, token
     } = isAuthenticated();
 
-    const srNo = 0;
+    var srNo = 0;
 
     const today = new Date();
 
@@ -89,9 +89,9 @@ const DoctorAppointments = () => {
 
                                     }
                                     if (d == todaysDate && appointment.status == 'approved') {
-
+                                        srNo++;
                                         return <tr className={appointment.status}>
-                                            <td>{srNo + 1}</td>
+                                            <td>{srNo}</td>
                                             <td>{appointment.patientId.patientId}</td>
                                             <td>{appointment.patientId.name}</td>
                                             <td>{appointment.patientId.dob}</td>
@@ -99,7 +99,7 @@ const DoctorAppointments = () => {
                                             <td>{appointment.patientId.addedByRefId?.phone}</td>
                                             <td>{appointment.status}</td>
                                             <td>{appointment.doctorId.name}</td>
-                                            <td>{new Date(appointment.appointmentTime).toLocaleTimeString()}</td>
+                                            <td>{new Date(appointment.appointmentTime).toString()}</td>
                                             <td><button
                                                 onClick={() => handlePrescribtion(appointment.patientId._id, appointment.patientId?.prescribtion)}
                                                 className="btn btn-danger"
@@ -107,7 +107,7 @@ const DoctorAppointments = () => {
                                                 Prescribtion
                                             </button></td>
                                         </tr>
-                                        srNo++;
+
                                     }
                                 }
                             )}

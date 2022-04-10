@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../auth/helper";
-import { getDoctors, getManagers, deleteUser } from "./helper/adminapicall";
+import { getDoctors, getManagers, deleteUser, getLabattendants } from "./helper/adminapicall";
 export default function ManageStaff(props) {
     const [users, setUsers] = useState([]);
     const [usersSize, setUsersSize] = useState(0)
@@ -29,6 +29,16 @@ export default function ManageStaff(props) {
         } else if (role == 1) {
             setUserType('Managers')
             getManagers().then(data => {
+                if (data.error) {
+                    console.log(data.error);
+                } else {
+                    setUsers(data);
+                }
+            });
+
+        } else if (role == 4) {
+            setUserType('Labs')
+            getLabattendants().then(data => {
                 if (data.error) {
                     console.log(data.error);
                 } else {

@@ -7,7 +7,7 @@ const AdminDashboard = () => {
     user: { name, email, role }
   } = isAuthenticated();
 
-
+  const styletext = "btn btn-secondary btn-block"
 
   return (
     <Base
@@ -15,20 +15,20 @@ const AdminDashboard = () => {
       description="Manage all your products here"
       className="container bg-success p-4"
     >
-      <ul>
-        <li className="nav-item">
+      <ul className="list-group">
+        <li className="nav-item list-group-item">
           <Link
-            // className="dashboard-dash-dlink dashboard-dash-cursor"
+            className={styletext}
 
             to="/admin/createuser"
           >
             Add Staff
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item list-group-item">
           <Link
             // className="dashboard-dash-dlink dashboard-dash-cursor"
-
+            className={styletext}
             to={{
               pathname: "/admin/managestaff",
 
@@ -38,10 +38,10 @@ const AdminDashboard = () => {
             Manage Doctors
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item list-group-item">
           <Link
             // className="dashboard-dash-dlink dashboard-dash-cursor"
-
+            className={styletext}
             to={{
               pathname: "/admin/managestaff",
 
@@ -51,10 +51,23 @@ const AdminDashboard = () => {
             Manage Managers
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item list-group-item">
           <Link
             // className="dashboard-dash-dlink dashboard-dash-cursor"
+            className={styletext}
+            to={{
+              pathname: "/admin/managestaff",
 
+              state: { role: 4 }
+            }}
+          >
+            Manage Lab Attendants
+          </Link>
+        </li>
+        <li className="nav-item list-group-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+            className={styletext}
             to={{
               pathname: "/admin/test/create",
 
@@ -64,10 +77,10 @@ const AdminDashboard = () => {
             Create Test
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item list-group-item">
           <Link
             // className="dashboard-dash-dlink dashboard-dash-cursor"
-
+            className={styletext}
             to={{
               pathname: "/admin/managetests",
 

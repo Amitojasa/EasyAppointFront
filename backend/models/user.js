@@ -44,7 +44,7 @@ var userSchema = new mongoose.Schema(
 
         patients: [{ type: ObjectId, ref: "Patient" }],
 
-        // admin=3,doctor=2, manager=1, patient=0
+        // admin=3,doctor=2, manager=1, patient=0 lab=4
         role: {
             type: Number,
             trim: true,

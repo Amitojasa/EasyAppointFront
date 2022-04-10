@@ -276,6 +276,18 @@ exports.getManagers = (req, res) => {
         res.json(events);
     });
 }
+exports.getLabattendants = (req, res) => {
+    // let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    // let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    User.find({ role: 4 }).exec((err, events) => {
+        if (err) {
+            return res.status(400).json({
+                error: "No Lab Attendant found Found"
+            });
+        }
+        res.json(events);
+    });
+}
 
 exports.getUsers = (req, res) => {
     // let limit = req.query.limit ? parseInt(req.query.limit) : 8;

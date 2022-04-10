@@ -82,6 +82,16 @@ export const getManagers = () => {
         })
         .catch(err => console.log(err));
 };
+export const getLabattendants = () => {
+    return fetch(`${API}/users/labattendants`, {
+        method: "GET",
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
 export const getDoctors = () => {
     return fetch(`${API}/users/doctors`, {

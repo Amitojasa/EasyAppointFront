@@ -1,4 +1,3 @@
-const Appointment = require('../models/appointment')
 const Test = require('../models/test')
 const formidable = require('formidable');
 const PcrTest = require('../models/pcrtest');
@@ -23,8 +22,15 @@ exports.getTest = (req, res) => {
 
 exports.getAllTestAppointments = (req, res) => {
 
-    Appointment.find().populate('patientId').populate('doctorId').exec((err, apts) => {
+    let status = req.params.status
+    PcrTest.find({ status: req.params.status }).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('testId').exec((err, apts) => {
         if (err) {
+            console.log(err)
             return res.status(400).json({
                 error: "No User Found"
             });
@@ -35,7 +41,18 @@ exports.getAllTestAppointments = (req, res) => {
     })
 
 }
+exports.updateTestAppointmentStatus = (req, res) => {
 
+    PcrTest.updateOne({ _id: req.params.appointment_id }, { $set: { status: req.params.status } }).exec((err, result) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Couldn't update appointment"
+            });
+        }
+    })
+
+    return res.json({ message: "Will approve the appointment" })
+}
 exports.addTestAppointment = (req, res) => {
     let patientId = req.body.patientId
     let doctorId = req.body.doctorId
@@ -62,7 +79,12 @@ exports.addTestAppointment = (req, res) => {
 // }
 
 exports.getTestAppointmentsByPatientId = (req, res) => {
-    Appointment.find({ patientId: req.body.patientId }).populate('patientId').populate('doctorId').exec((err, apts) => {
+    Appointment.find({ patientId: req.body.patientId }).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('doctorId').exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"

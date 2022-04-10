@@ -17,7 +17,7 @@ const Menu = ({ history }) => {
 
         <li className="nav-item">
           <Link style={currentTab(history, "/")} className="nav-link" to="/">
-            EasyAppoint
+            EasyAppoint Pro
           </Link>
         </li>
 
@@ -74,6 +74,18 @@ const Menu = ({ history }) => {
               to="/admin/dashboard"
             >
               Admin DashBoard
+            </Link>
+          </li>
+        )}
+
+        {isAuthenticated() && isAuthenticated().user.role === 4 && (
+          <li className="nav-item">
+            <Link
+              style={currentTab(history, "/admin/dashboard")}
+              className="nav-link"
+              to="/lab/dashboard"
+            >
+              Lab Attendant DashBoard
             </Link>
           </li>
         )}

@@ -11,13 +11,14 @@ const {
     getManagers,
     getUsers,
     getAdminById,
-    updateFormUser
+    updateFormUser, getLabattendants
 } = require("../controllers/user");
 const {
     addPatient
 } = require("../controllers/patient");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { check } = require("express-validator");
+
 
 router.param("userId", getUserById);
 router.param("adminId", getAdminById);
@@ -26,6 +27,7 @@ router.get("/user/:userId", isSignedIn, isAuthenticated, getUser);
 router.get("/user/:userId/:adminId", isAdmin, getUser);
 router.get("/users/doctors", getDoctors);
 router.get("/users/managers", getManagers);
+router.get("/users/labattendants", getLabattendants);
 router.get("/users/:userId", isSignedIn, isAuthenticated, getUsers);
 router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
 router.put("/user/:userId/:adminId", isAdmin, updateFormUser);

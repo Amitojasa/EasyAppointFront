@@ -25,10 +25,10 @@ var pcrTestSchema = new mongoose.Schema(
             type: String,
 
         },
-        testDone: {
-            type: Boolean,
-            default: false,
-            required: false
+        status: {
+            type: String,
+            enum: ['pending', 'declined', 'approved', 'in-progress', 'completed'],
+            default: 'pending'
         }
     }, { timestamps: true }
 )

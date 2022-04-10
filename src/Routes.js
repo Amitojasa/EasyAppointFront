@@ -8,6 +8,9 @@ import PrivateRoute from "./auth/helper/PrivateRoutes";
 import UserDashboard from "./user/UserDashBoard";
 import DoctorDashboard from "./doctor/DoctorDashBoard";
 import ManagerDashboard from "./manager/ManagerDashBoard";
+import LabDashboard from "./labs/LabDashBoard";
+import LabManageAppointments from "./labs/LabManageAppointments";
+import ManageLabPatients from "./labs/ManageLabPatients";
 import AdminDashboard from "./admin/AdminDashBoard";
 import ManagerRoute from "./auth/helper/ManagerRoutes";
 import DoctorRoute from "./auth/helper/DoctorRoutes";
@@ -29,6 +32,7 @@ import BookTest from "./user/BookTest";
 
 import ManagerManageAppointments from './manager/ManagerManageAppointments'
 import DoctorAppointments from "./doctor/DoctorAppointments";
+import LabRoute from "./auth/helper/LabRoutes";
 
 function Routes() {
     return (
@@ -52,6 +56,10 @@ function Routes() {
                 <ManagerRoute path="/manager/dashboard" exact component={ManagerDashboard} />
                 <ManagerRoute path="/manager/managepatients" exact component={ManageManagerPatients} />
                 <ManagerRoute path="/manager/manageappointments" exact component={ManagerManageAppointments} />
+
+                <LabRoute path="/lab/dashboard" exact component={LabDashboard} />
+                <LabRoute path="/lab/managepatients" exact component={ManageLabPatients} />
+                <LabRoute path="/lab/manageappointments" exact component={LabManageAppointments} />
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
                 <PrivateRoute path="/user/profile" exact component={UserProfile} />
                 <PrivateRoute path="/user/addpatient" exact component={AddPatient} />

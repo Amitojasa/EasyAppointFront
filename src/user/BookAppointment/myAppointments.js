@@ -4,28 +4,28 @@ import { isAuthenticated } from "../../auth/helper";
 import Base from "../../core/Base";
 import './viewappointment.css'
 
-const MyAppointments=({match})=>{
+const MyAppointments = ({ match }) => {
 
     const { user, token } = isAuthenticated();
-    const [isLoading,setIsLoading]=useState(true)
+    const [isLoading, setIsLoading] = useState(true)
 
-    const [appointments,updateAppointments]=useState([])
+    const [appointments, updateAppointments] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(match)
-        getAppointments(match.params.patientId,token)
-            .then(data=>{
+        getAppointments(match.params.patientId, token)
+            .then(data => {
                 updateAppointments(data)
                 setIsLoading(false)
             })
-    },[])
+    }, [])
 
     return (
         <Base title="My Appointments" description="">
-            {isLoading?(
+            {isLoading ? (
                 <p>Your appointments are being fetched</p>
-            ):(
-                appointments.length?(
+            ) : (
+                appointments.length ? (
                     <table>
                         <thead>
                             <tr>
@@ -40,21 +40,21 @@ const MyAppointments=({match})=>{
                         </thead>
                         <tbody>
                             {appointments.map(
-                                (appointment,i)=>(
+                                (appointment, i) => (
                                     <tr className={appointment.status}>
-                                        <td>{i+1}</td>
+                                        <td>{i + 1}</td>
                                         <td>{appointment.patientId.name}</td>
                                         <td>{appointment.patientId.dob}</td>
                                         <td>{appointment.status}</td>
                                         <td>{appointment.doctorId.name}</td>
-                                        <td>{appointment.appointmentTime}</td>
+                                        <td>{new Date(appointment.appointmentTime).toString()}</td>
                                         {/* <td><button>Cancel</button></td> */}
                                     </tr>
                                 )
                             )}
                         </tbody>
                     </table>
-                ):(
+                ) : (
                     <p>You have no appointments for selected patient</p>
                 )
             )}

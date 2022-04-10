@@ -5,13 +5,14 @@ import { isAuthenticated } from '../auth/helper'
 import { FormatColorReset } from '@mui/icons-material'
 
 
-const ManagerManageAppointments = () => {
+const LabManageAppointments = () => {
 
     const states = {
         'pending': 'Pending',
+        'declined': 'Declined',
         'approved': 'Approved',
-        'cancelled': 'Cancelled',
-        'declined': 'Declined'
+        'in-progress': 'In Progress',
+        'completed': 'Completed'
     }
     const [status, setStatus] = useState('pending')
     const { user, token } = isAuthenticated()
@@ -26,7 +27,7 @@ const ManagerManageAppointments = () => {
         getAllAppointments(status, token)
             .then(
                 data => {
-
+                    console.log(data)
                     updateAppointments(data)
                     setIsLoading(false)
                 }
@@ -71,10 +72,10 @@ const ManagerManageAppointments = () => {
                                 <th>Sr.no</th>
                                 <th>Patient Name</th>
                                 <th>DOB</th>
-                                <th>E-mail</th>
-                                <th>phone</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Status</th>
-                                <th>Doctor Name</th>
+                                <th>Test Name</th>
                                 <th>Appointment Date/Time</th>
                                 {<th>Action</th>}
                             </tr>
@@ -86,15 +87,21 @@ const ManagerManageAppointments = () => {
                                         <td>{i + 1}</td>
                                         <td>{appointment.patientId.name}</td>
                                         <td>{appointment.patientId.dob}</td>
-                                        <td>{appointment.patientId.addedByRefId?.email}</td>
+                                        <td>{appointment.patientId.addedByRefId.email}</td>
                                         <td>{appointment.patientId.addedByRefId?.phone}</td>
                                         <td>{appointment.status}</td>
-                                        <td>{appointment.doctorId.name}</td>
+                                        <td>{appointment.testId.testName}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
                                         <td>{appointment.status == 'pending' ? (<>
                                             <button onClick={() => { updateStatus('approved', appointment._id, i) }}>Approve</button>
                                             <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button>
-                                        </>) : "N/a"}</td>
+                                        </>) : appointment.status == 'approved' ? (<>
+                                            <button onClick={() => { updateStatus('in-progress', appointment._id, i) }}>Start/In progress</button>
+                                            {/* <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button> */}
+                                        </>) : appointment.status == 'in-progress' ? (<>
+                                            <button onClick={() => { updateStatus('completed', appointment._id, i) }}>Completed</button>
+                                            {/* <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button> */}
+                                        </>) : "NA"}</td>
                                     </tr>
                                 )
                             )}
@@ -108,4 +115,4 @@ const ManagerManageAppointments = () => {
     )
 }
 
-export default ManagerManageAppointments;
+export default LabManageAppointments;

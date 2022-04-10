@@ -3,8 +3,13 @@ const formidable = require('formidable')
 
 exports.getAllAppointments = (req, res) => {
 
-    let status=req.params.status
-    Appointment.find({status:req.params.status}).populate('patientId').populate('doctorId').exec((err, apts) => {
+    let status = req.params.status
+    Appointment.find({ status: req.params.status }).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('doctorId').exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"
@@ -39,9 +44,9 @@ exports.addAppointment = (req, res) => {
 }
 
 exports.updateAppointmentStatus = (req, res) => {
-    
-    Appointment.updateOne({_id:req.params.appointment_id},{$set:{status:req.params.status}}).exec((err,result)=>{
-        if(err){
+
+    Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { status: req.params.status } }).exec((err, result) => {
+        if (err) {
             return res.status(400).json({
                 error: "Couldn't update appointment"
             });
@@ -53,7 +58,12 @@ exports.updateAppointmentStatus = (req, res) => {
 
 exports.getAppointmentsByPatientId = (req, res) => {
     console.log(req)
-    Appointment.find({ patientId: req.params.patientId }).populate('patientId').populate('doctorId').exec((err, apts) => {
+    Appointment.find({ patientId: req.params.patientId }).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('doctorId').exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"
@@ -66,9 +76,14 @@ exports.getAppointmentsByPatientId = (req, res) => {
 
 }
 
-exports.getAppointmentsByDoctorId=(req,res)=>{
+exports.getAppointmentsByDoctorId = (req, res) => {
     console.log(req)
-    Appointment.find({ doctorId: req.params.doctorId }).populate('patientId').populate('doctorId').exec((err, apts) => {
+    Appointment.find({ doctorId: req.params.doctorId }).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('doctorId').sort({ appointmentTime: 'desc' }).exec((err, apts) => {
         if (err) {
             return res.status(400).json({
                 error: "No User Found"
@@ -76,5 +91,5 @@ exports.getAppointmentsByDoctorId=(req,res)=>{
         }
         res.json(apts);
 
-    })    
+    })
 }

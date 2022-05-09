@@ -1,6 +1,6 @@
 import { API } from "../../backend";
 
-export const getAllAppointments = (status,token) => {
+export const getAllAppointments = (status, token) => {
     return fetch(`${API}/allappointments/${status}`, {
         method: "GET",
         headers: {
@@ -15,22 +15,44 @@ export const getAllAppointments = (status,token) => {
         .catch(err => console.log(err));
 };
 
-export const updateAppointment=(appointmentId,status,token)=>{
+export const updateAppointment = (appointmentId, status, token) => {
     return fetch(`${API}/appointment/${appointmentId}/${status}`,
         {
-            method:'PUT',
-            headers:{
-                Accept:"application/json",
-                Authorization:`Bearer ${token}`
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
             },
-            body:JSON.stringify({
-                appointmentId,status
+            body: JSON.stringify({
+                appointmentId, status
             })
         }
     )
-    .then(
-        response=>{
-            return response.json()
+        .then(
+            response => {
+                return response.json()
+            }
+        )
+}
+
+export const updateAppointmentFee = (appointmentId, hasPaid, token) => {
+    return fetch(`${API}/appointment/fee/${appointmentId}/${hasPaid}`,
+        {
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                appointmentId, hasPaid
+            })
         }
     )
+        .then(
+            response => {
+                return response.json()
+            }
+        )
 }
+
+

@@ -1,54 +1,38 @@
-import { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base'
-import { getAllAppointments, updateAppointment, updateAppointmentFee } from './helper/patientsApiCall'
-import { isAuthenticated } from '../auth/helper'
-import { FormatColorReset } from '@mui/icons-material'
+import { getAllAppointments, updateAppointmentFee } from '../manager/helper/patientsApiCall';
+import { payitback, updateUser } from './helper/userapicalls';
 
+function Payments() {
 
-const ManagerManageAppointments = () => {
+    const { user, token } = isAuthenticated();
 
-    const states = {
-        'pending': 'Pending',
-        'approved': 'Approved',
-        'cancelled': 'Cancelled',
-        'declined': 'Declined'
-    }
+    // const [hasPaidEntry, setHasPaidEntry] = useState(user.hasPaidEntry)
+
+    const [error, setError] = useState(null);
+
     const [status, setStatus] = useState('pending')
-    const { user, token } = isAuthenticated()
 
     const [appointments, updateAppointments] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const [updatedState, setUpdatedState] = useState(1)
 
     useEffect(() => {
         setIsLoading(true)
         getAllAppointments(status, token)
             .then(
                 data => {
+                    console.log(data)
 
                     updateAppointments(data)
                     setIsLoading(false)
                 }
             )
 
+        preLoad();
 
-    }, [status, updatedState])
-
-    const updateStatus = (status, appointmentId, index) => {
-        //setIsLoading(true)
-        updateAppointment(appointmentId, status, token).
-            then(
-                data => {
-                    let newAppointmentStates = [...appointments]
-                    newAppointmentStates[index].status = status
-                    updateAppointments(newAppointmentStates)
-                    //setUpdatedState(updatedState+1)
-                    //setIsLoading(false)
-                }
-
-            )
-    }
+    }, [])
 
 
     const updateFeeStatus = (hasPaid, appointmentId, index) => {
@@ -69,14 +53,62 @@ const ManagerManageAppointments = () => {
 
 
 
+
+    const [val, setval] = useState({})
+    const preLoad = async () => {
+        const d = await payitback(user._id, token, { productInfo: "Appointment", entryFee: 200 });
+
+        setval(d);
+
+    };
+
+
+
+    function launchBOLT(apId, i) {
+        console.log(val)
+        window.bolt.launch({
+            key: val.key,
+            // salt: val.salt,
+            txnid: val.txnid.toString(),
+            hash: val.hash,
+            amount: val.amount,
+            firstname: val.firstname,
+            email: val.email,
+            phone: val.phone,
+            productinfo: val.productinfo,
+            udf5: val.udf5,
+            surl: val.surl,
+            furl: val.furl
+        }, {
+            responseHandler: function (BOLT) {
+                if (BOLT.response.txnStatus !== 'CANCEL') {
+
+                    console.log("Success");
+                    updateFeeStatus('paid', apId, i)
+                    // updateUser(user._id, token, { hasPaidEntry: true }).then(data => {
+                    //     if (data.error) {
+                    //         setError(data.error);
+                    //     }
+                    // }).catch(err => console.log(err))
+                }
+
+            },
+            catchException: function (BOLT) {
+                setError(JSON.stringify(BOLT));
+            }
+        });
+    }
+    const payForm = (i, apId) => {
+        return (
+
+            < input key={i} onClick={() => launchBOLT(apId, i)} value="Pay" type="button" />
+
+        )
+    }
+
     return (
-        <Base title="Manage Appointments" description="">
-            <div className='filter-title'>Filter Appointments</div>
-            <div className='status-filter'>
-                {Object.keys(states).map(state => (
-                    <button onClick={() => { setStatus(state) }}>{states[state]}</button>
-                ))}
-            </div>
+        <Base title="User Appointments" description="">
+
             {isLoading ? (
                 <p>{status} appointments are being fetched</p>
             ) : (
@@ -98,7 +130,7 @@ const ManagerManageAppointments = () => {
                         <tbody>
                             {appointments.map(
                                 (appointment, i) => (
-                                    <tr className={appointment.status}>
+                                    <tr className={appointment.status} key={i}>
                                         <td>{i + 1}</td>
                                         <td>{appointment.patientId.name}</td>
                                         <td>{appointment.patientId.dob}</td>
@@ -107,17 +139,10 @@ const ManagerManageAppointments = () => {
                                         <td>{appointment.status}</td>
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
-                                        <td>{appointment.status == 'pending' ? (<>
-                                            <button onClick={() => { updateStatus('approved', appointment._id, i) }}>Approve</button>
-                                            <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button>
-                                        </>) : "N/a"}</td>
-                                        <td>{appointment.hasPaid == 'unpaid' ? (<>
-                                            <button onClick={() => { updateFeeStatus('request', appointment._id, i) }}>Request</button>
-                                            <button onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
-                                        </>) : appointment.hasPaid == 'request' ? (<>
-                                            <button onClick={() => { updateFeeStatus('paid', appointment._id, i) }}>Paid</button>
-                                            <button onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
-                                        </>) : appointment.hasPaid == 'paid' ? 'Paid' : "Cancelled"}</td>
+                                        <td>{appointment.status == 'paid' ? "Paid"
+
+                                            : (payForm(i, appointment._id))}</td>
+
                                     </tr>
                                 )
                             )}
@@ -131,4 +156,10 @@ const ManagerManageAppointments = () => {
     )
 }
 
-export default ManagerManageAppointments;
+
+
+
+
+
+
+export default Payments;

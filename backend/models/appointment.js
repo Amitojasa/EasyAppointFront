@@ -25,10 +25,15 @@ var appointmentSchema = new mongoose.Schema(
             default: false,
             required: false
         },
-        status:{
-            type:String,
-            enum:['pending','cancelled','approved','declined'],
-            default:'pending'
+        status: {
+            type: String,
+            enum: ['pending', 'cancelled', 'approved', 'declined'],
+            default: 'pending'
+        },
+        hasPaid: {
+            type: String,
+            enum: ['unpaid', 'paid', 'cancel', 'request'],
+            default: 'unpaid'
         }
     }, { timestamps: true }
 )

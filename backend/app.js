@@ -14,6 +14,7 @@ const userRoutes = require("./routes/user");
 const patientRoutes = require("./routes/patient");
 const appointmentRoutes = require("./routes/appointment")
 const pcrtestRoutes = require("./routes/pcrtest")
+const paymentRoutes = require("./routes/payments")
 
 
 
@@ -32,6 +33,7 @@ app.use("/api", userRoutes);
 app.use("/api", patientRoutes);
 app.use("/api", appointmentRoutes);
 app.use("/api", pcrtestRoutes);
+app.use("/api", paymentRoutes);
 
 
 //Port

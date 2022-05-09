@@ -50,3 +50,21 @@ export const bookTest = (userId, token, data) => {
         })
         .catch(err => console.log(err));
 };
+
+export const payitback = (userId, token, b) => {
+    return fetch(`${API}/payment/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: b
+
+
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

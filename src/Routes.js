@@ -33,6 +33,9 @@ import BookTest from "./user/BookTest";
 import ManagerManageAppointments from './manager/ManagerManageAppointments'
 import DoctorAppointments from "./doctor/DoctorAppointments";
 import LabRoute from "./auth/helper/LabRoutes";
+import fail from "./core/fail";
+import success from "./core/success";
+import Payments from "./user/Payments";
 
 function Routes() {
     return (
@@ -41,6 +44,8 @@ function Routes() {
                 <Route path="/" exact component={Home} />
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/signin" exact component={Signin} />
+                <Route path="/getSuccess" exact component={success}></Route>
+                <Route path="/getFailure" exact component={fail}></Route>
 
                 <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
                 <AdminRoute path="/admin/managestaff" exact component={ManageStaff} />
@@ -65,6 +70,7 @@ function Routes() {
                 <PrivateRoute path="/user/addpatient" exact component={AddPatient} />
                 <PrivateRoute path="/user/managepatients" exact component={ManagePatient} />
                 <PrivateRoute path="/user/bookTest" exact component={BookTest} />
+                <PrivateRoute path="/user/payment" exact component={Payments} />
                 <PrivateRoute path="/patient/update/:patientId" exact component={UpdatePatient} />
                 <PrivateRoute path="/patient/:patientId/appointments/create" exact component={NewAppointment} />
                 <PrivateRoute path="/patient/:patientId/appointments" exact component={MyAppointments} />

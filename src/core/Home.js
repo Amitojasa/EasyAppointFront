@@ -22,7 +22,7 @@ function Home() {
   // }, []);
 
   return (
-    <Base title="EasyAppoint Pro" description={<img src={homeimg} alt="" className="img img-fluid" />}>
+    <Base title="EasyAppoint Pro" description={<img src={homeimg} alt="" className="img img-fluid" />} className={"d-none"}>
 
     </Base>
   );

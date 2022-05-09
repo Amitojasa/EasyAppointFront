@@ -45,6 +45,17 @@ const UserDashboard = () => {
             Book Test
           </Link>
         </li>
+        <li className="nav-item">
+          <Link
+            // className="dashboard-dash-dlink dashboard-dash-cursor"
+
+            to={{
+              pathname: "/user/payment",
+            }}
+          >
+            Pay
+          </Link>
+        </li>
 
       </ul>
     </Base>

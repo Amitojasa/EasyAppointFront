@@ -56,6 +56,19 @@ exports.updateAppointmentStatus = (req, res) => {
     return res.json({ message: "Will approve the appointment" })
 }
 
+exports.updateAppointmentFeeStatus = (req, res) => {
+
+    Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { hasPaid: req.params.status } }).exec((err, result) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Couldn't update appointment"
+            });
+        }
+    })
+
+    return res.json({ message: "Fee status updated" })
+}
+
 exports.getAppointmentsByPatientId = (req, res) => {
     console.log(req)
     Appointment.find({ patientId: req.params.patientId }).populate({

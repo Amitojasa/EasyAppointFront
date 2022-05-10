@@ -92,7 +92,8 @@ const ManagerManageAppointments = () => {
                                 <th>Status</th>
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
-                                {<th>Action</th>}
+                                <th>Action</th>
+                                <th>Payment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,15 +109,15 @@ const ManagerManageAppointments = () => {
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
                                         <td>{appointment.status == 'pending' ? (<>
-                                            <button onClick={() => { updateStatus('approved', appointment._id, i) }}>Approve</button>
-                                            <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button>
+                                            <button className='btn btn-primary btn-block' onClick={() => { updateStatus('approved', appointment._id, i) }}>Approve</button>
+                                            <button className='btn btn-secondary btn-block' onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button>
                                         </>) : "N/a"}</td>
                                         <td>{appointment.hasPaid == 'unpaid' ? (<>
-                                            <button onClick={() => { updateFeeStatus('request', appointment._id, i) }}>Request</button>
-                                            <button onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
+                                            <button className='btn btn-primary btn-block' onClick={() => { updateFeeStatus('request', appointment._id, i) }}>Request</button>
+                                            <button className='btn btn-secondary btn-block' onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
                                         </>) : appointment.hasPaid == 'request' ? (<>
-                                            <button onClick={() => { updateFeeStatus('paid', appointment._id, i) }}>Paid</button>
-                                            <button onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
+                                            <button className='btn btn-primary btn-block' onClick={() => { updateFeeStatus('paid', appointment._id, i) }}>Paid</button>
+                                            <button className='btn btn-secondary btn-block' onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
                                         </>) : appointment.hasPaid == 'paid' ? 'Paid' : "Cancelled"}</td>
                                     </tr>
                                 )

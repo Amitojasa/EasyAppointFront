@@ -7,7 +7,8 @@ const fetch = require('fetch')
 exports.getPaymentHashId = (req, res, next) => {
     var cryp = crypto.createHash('sha512');
     var txnid = Date.now();
-    var { entryFee, productInfo } = req.body;
+    var entryFee = req.body.entryFee;
+    var productInfo = req.body.productInfo;
     var text = process.env.MERCHANT_KEY + '|' + txnid + '|' + entryFee + '|' + productInfo + '|' + req.profile.name
         + '|' + req.profile.email + '|||||' + process.env.UDF5 + '||||||' + process.env.MERCHANT_SALT;
     // console.log(text);
@@ -20,7 +21,8 @@ exports.getPaymentHashId = (req, res, next) => {
 }
 
 exports.processPayment = (req, res) => {
-    var { entryFee, productInfo } = req.body;
+    var entryFee = req.body.entryFee;
+    var productInfo = req.body.productInfo;
     var hash = req.paymentProfile.hash
     var key = process.env.MERCHANT_KEY;
     var salt = process.env.MERCHANT_SALT;
@@ -70,28 +72,28 @@ exports.processPayment = (req, res) => {
     //     .catch(err => console.error('error:' + err));
 
 
-    request.post({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        url: 'https://test.payu.in/_payment', //Testing url
-        form: pay
-    }, function (error, httpRes, body) {
-        if (error)
-            res.send(
-                {
-                    status: false,
-                    message: error.toString()
-                }
-            );
-        if (httpRes.statusCode === 200) {
-            res.send(body);
-        } else if (httpRes.statusCode >= 300 &&
-            httpRes.statusCode <= 400) {
-            res.redirect(httpRes.headers.location.toString());
-        }
-    })
+    // request.post({
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     url: 'https://test.payu.in/_payment', //Testing url
+    //     form: pay
+    // }, function (error, httpRes, body) {
+    //     if (error)
+    //         res.send(
+    //             {
+    //                 status: false,
+    //                 message: error.toString()
+    //             }
+    //         );
+    //     if (httpRes.statusCode === 200) {
+    //         res.send(body);
+    //     } else if (httpRes.statusCode >= 300 &&
+    //         httpRes.statusCode <= 400) {
+    //         res.redirect(httpRes.headers.location.toString());
+    //     }
+    // })
 
     // return res;
     return res.json(pay);

@@ -59,7 +59,7 @@ export const payitback = (userId, token, b) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: b
+        body: JSON.stringify(b)
 
 
     })

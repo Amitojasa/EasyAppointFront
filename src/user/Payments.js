@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { isAuthenticated } from '../auth/helper';
 import Base from '../core/Base'
-import { getAllAppointments, updateAppointmentFee } from '../manager/helper/patientsApiCall';
+import { getAllMyAppointments, updateAppointmentFee } from '../manager/helper/patientsApiCall';
 import { payitback, updateUser } from './helper/userapicalls';
 
 function Payments() {
@@ -12,7 +12,6 @@ function Payments() {
 
     const [error, setError] = useState(null);
 
-    const [status, setStatus] = useState('pending')
 
     const [appointments, updateAppointments] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -20,7 +19,7 @@ function Payments() {
 
     useEffect(() => {
         setIsLoading(true)
-        getAllAppointments(status, token)
+        getAllMyAppointments(user._id, token)
             .then(
                 data => {
                     console.log(data)
@@ -110,7 +109,7 @@ function Payments() {
         <Base title="User Appointments" description="">
 
             {isLoading ? (
-                <p>{status} appointments are being fetched</p>
+                <p>Appointments are being fetched</p>
             ) : (
                 appointments.length ? (
                     <table>
@@ -124,7 +123,7 @@ function Payments() {
                                 <th>Status</th>
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
-                                {<th>Action</th>}
+                                {<th>Payment</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -139,9 +138,7 @@ function Payments() {
                                         <td>{appointment.status}</td>
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
-                                        <td>{appointment.status == 'paid' ? "Paid"
-
-                                            : (payForm(i, appointment._id))}</td>
+                                        <td>{appointment.hasPaid == 'request' ? (payForm(i, appointment._id)) : appointment.hasPaid}</td>
 
                                     </tr>
                                 )
@@ -149,7 +146,7 @@ function Payments() {
                         </tbody>
                     </table>
                 ) : (
-                    <p>We have no {status} booking</p>
+                    <p>We have no appointments</p>
                 )
             )}
         </Base>

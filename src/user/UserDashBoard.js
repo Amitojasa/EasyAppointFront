@@ -53,7 +53,7 @@ const UserDashboard = () => {
               pathname: "/user/payment",
             }}
           >
-            Pay
+            Payments/ Appointments
           </Link>
         </li>
 

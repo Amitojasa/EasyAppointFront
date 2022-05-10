@@ -1,4 +1,5 @@
 const Appointment = require('../models/appointment')
+const User = require('../models/user')
 const formidable = require('formidable')
 
 exports.getAllAppointments = (req, res) => {
@@ -19,6 +20,40 @@ exports.getAllAppointments = (req, res) => {
         res.json(apts);
 
     })
+
+}
+exports.getAllMyAppointments = (req, res) => {
+
+    let uId = req.profile._id;
+    var p = [];
+    User.findById(uId).exec((err, usr) => {
+        if (!err) {
+            console.log(usr.patients);
+            p = [...usr.patients];
+            Appointment.find({ patientId: { $in: p } }).populate({
+                path: 'patientId',
+                populate: {
+                    path: 'addedByRefId'
+                }
+            }).populate('doctorId').exec((err, apts) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: "No User Found"
+                    });
+                }
+                // console.log(apts)
+                res.json(apts);
+
+            })
+        } else {
+
+            return res.status(400).json({
+                error: "No User Found"
+            });
+        }
+    })
+
+
 
 }
 

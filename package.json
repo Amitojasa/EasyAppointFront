@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@zoomus/websdk": "^2.4.0",
     "date-fns": "^2.27.0",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",

@@ -77,6 +77,7 @@ const DoctorAppointments = () => {
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
                                 <th>Action</th>
+                                <th>Start Meet</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,6 +107,12 @@ const DoctorAppointments = () => {
                                             >
                                                 Prescribtion
                                             </button></td>
+                                            <td>
+                                            {appointment.status=='approved'&&appointment.meetingData?(
+                                                <a href={appointment.meetingData.start_url}>Start</a>
+                                            ):'N/A'}
+                                            
+                                            </td>
                                         </tr>
 
                                     }

@@ -34,6 +34,11 @@ var appointmentSchema = new mongoose.Schema(
             type: String,
             enum: ['unpaid', 'paid', 'cancel', 'request'],
             default: 'unpaid'
+        },
+        meetingData: {
+            type: Object,
+            required: false,
+            default: {}
         }
     }, { timestamps: true }
 )

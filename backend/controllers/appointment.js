@@ -1,6 +1,7 @@
 const Appointment = require('../models/appointment')
 const User = require('../models/user')
 const formidable = require('formidable')
+const meetings = require('./meetings')
 
 exports.getAllAppointments = (req, res) => {
 
@@ -80,11 +81,52 @@ exports.addAppointment = (req, res) => {
 
 exports.updateAppointmentStatus = (req, res) => {
 
+    console.log(req.params.status)
+
     Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { status: req.params.status } }).exec((err, result) => {
         if (err) {
             return res.status(400).json({
                 error: "Couldn't update appointment"
             });
+        }
+        if(req.params.status=='approved'){
+            meetings.createMeeting(
+                {
+                    doctorEmail:'ankitstudy88@gmail.com',
+                    patientEmail:'ritiksonu882000@gmail.com',
+                    doctorName: 'Ankit Mishra',
+                    patientName:'Ritik Prashar',
+                    bookingTime: "2022-03-25T07:32:55Z"
+                },
+                (meeting)=>{
+                    let meetingData={
+                        meeting_id: meeting.id,
+                        start_url: meeting.start_url,
+                        join_url: meeting.join_url,
+                        additional_data: meeting
+                    }
+                    console.log("meeting data",meetingData)
+                    Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { meetingData} }).exec((err, result)=>{
+                        if(err){
+                            console.log("Some error occured in updating meeting data")
+                            // May be I want to revert the status to pending again 
+                            return res.status(400).json({
+                                error: "Couldn't update meeting data"
+                            });
+                        }
+                        console.log("Meeting data updated",req.params.appointment_id )
+                            
+                    })
+                    
+                },
+                (err)=>{
+                    console.log("Error in creating meeting link",err)
+                    // May be I want to revert the status to pending again
+                    return res.status(400).json({
+                        error: "Couldn't update meeting data"
+                    });
+                }
+            )
         }
     })
 

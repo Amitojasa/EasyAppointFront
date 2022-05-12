@@ -36,7 +36,7 @@ exports.getAllMyAppointments = (req, res) => {
                 populate: {
                     path: 'addedByRefId'
                 }
-            }).populate('doctorId').exec((err, apts) => {
+            }).populate('doctorId').sort({ appointmentTime: 'desc' }).exec((err, apts) => {
                 if (err) {
                     return res.status(400).json({
                         error: "No User Found"
@@ -82,55 +82,70 @@ exports.addAppointment = (req, res) => {
 exports.updateAppointmentStatus = (req, res) => {
 
     console.log(req.params.status)
-
-    Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { status: req.params.status } }).exec((err, result) => {
+    Appointment.findById(req.params.appointment_id).populate({
+        path: 'patientId',
+        populate: {
+            path: 'addedByRefId'
+        }
+    }).populate('doctorId').exec((err, apt) => {
         if (err) {
             return res.status(400).json({
-                error: "Couldn't update appointment"
+                error: "No User Found"
             });
         }
-        if(req.params.status=='approved'){
-            meetings.createMeeting(
-                {
-                    doctorEmail:'ankitstudy88@gmail.com',
-                    patientEmail:'ritiksonu882000@gmail.com',
-                    doctorName: 'Ankit Mishra',
-                    patientName:'Ritik Prashar',
-                    bookingTime: "2022-03-25T07:32:55Z"
-                },
-                (meeting)=>{
-                    let meetingData={
-                        meeting_id: meeting.id,
-                        start_url: meeting.start_url,
-                        join_url: meeting.join_url,
-                        additional_data: meeting
-                    }
-                    console.log("meeting data",meetingData)
-                    Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { meetingData} }).exec((err, result)=>{
-                        if(err){
-                            console.log("Some error occured in updating meeting data")
-                            // May be I want to revert the status to pending again 
-                            return res.status(400).json({
-                                error: "Couldn't update meeting data"
-                            });
-                        }
-                        console.log("Meeting data updated",req.params.appointment_id )
-                            
-                    })
-                    
-                },
-                (err)=>{
-                    console.log("Error in creating meeting link",err)
-                    // May be I want to revert the status to pending again
-                    return res.status(400).json({
-                        error: "Couldn't update meeting data"
-                    });
-                }
-            )
-        }
-    })
 
-    return res.json({ message: "Will approve the appointment" })
+        Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { status: req.params.status } }
+
+        ).exec((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Couldn't update appointment"
+                });
+            }
+            if (req.params.status == 'approved') {
+                meetings.createMeeting(
+                    {
+                        doctorEmail: apt.doctorId.email,
+                        patientEmail: apt.patientId.addedByRefId?.email,
+                        doctorName: apt.doctorId.name,
+                        patientName: apt.patientId.name,
+                        bookingTime: apt.appointmentTime
+                    },
+                    (meeting) => {
+                        let meetingData = {
+                            meeting_id: meeting.id,
+                            start_url: meeting.start_url,
+                            join_url: meeting.join_url,
+                            additional_data: meeting
+                        }
+                        console.log("meeting data", meetingData)
+                        Appointment.updateOne({ _id: req.params.appointment_id }, { $set: { meetingData } }).exec((err, result) => {
+                            if (err) {
+                                console.log("Some error occured in updating meeting data")
+                                // May be I want to revert the status to pending again 
+                                return res.status(400).json({
+                                    error: "Couldn't update meeting data"
+                                });
+                            }
+                            console.log("Meeting data updated", req.params.appointment_id)
+
+                        })
+
+                    },
+                    (err) => {
+                        console.log("Error in creating meeting link", err)
+                        // May be I want to revert the status to pending again
+                        return res.status(400).json({
+                            error: "Couldn't update meeting data"
+                        });
+                    }
+                )
+            }
+            return res.json({ message: "Will approve the appointment" })
+
+        })
+
+    })
 }
 
 exports.updateAppointmentFeeStatus = (req, res) => {

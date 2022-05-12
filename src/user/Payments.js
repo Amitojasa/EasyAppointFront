@@ -124,6 +124,7 @@ function Payments() {
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
                                 {<th>Payment</th>}
+                                <th>Join</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -139,7 +140,12 @@ function Payments() {
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
                                         <td>{appointment.hasPaid == 'request' ? (payForm(i, appointment._id)) : appointment.hasPaid}</td>
-
+                                        <td>
+                                            {appointment.status=='approved'&&appointment.meetingData?(
+                                                <a target={"_blank"} href={appointment.meetingData.join_url}>Join</a>
+                                            ):'N/A'}
+                                            
+                                        </td>
                                     </tr>
                                 )
                             )}

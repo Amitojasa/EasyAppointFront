@@ -3,6 +3,7 @@ import Base from '../core/Base'
 import { getAllAppointments, updateAppointment, updateAppointmentFee } from './helper/patientsApiCall'
 import { isAuthenticated } from '../auth/helper'
 import { FormatColorReset } from '@mui/icons-material'
+import {Link} from 'react-router-dom'
 
 
 const ManagerManageAppointments = () => {
@@ -94,6 +95,8 @@ const ManagerManageAppointments = () => {
                                 <th>Appointment Date/Time</th>
                                 <th>Action</th>
                                 <th>Payment</th>
+                                <th>Meeting Start Link</th>
+                                <th>Meeting Join Link</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -119,6 +122,17 @@ const ManagerManageAppointments = () => {
                                             <button className='btn btn-primary btn-block' onClick={() => { updateFeeStatus('paid', appointment._id, i) }}>Paid</button>
                                             <button className='btn btn-secondary btn-block' onClick={() => { updateFeeStatus('cancel', appointment._id, i) }}>Cancel</button>
                                         </>) : appointment.hasPaid == 'paid' ? 'Paid' : "Cancelled"}</td>
+                                        <td>
+                                            {appointment.status=='approved'&&appointment.meetingData?(
+                                                <a target={"_blank"} href={appointment.meetingData.start_url}>Start URL</a>
+                                            ):'N/A'}
+                                            
+                                        </td>
+                                        <td>
+                                        {appointment.status=='approved'&&appointment.meetingData?(
+                                                <a target={"_blank"} href={appointment.meetingData.join_url}>Join URL</a>
+                                            ):'N/A'}
+                                        </td>
                                     </tr>
                                 )
                             )}

@@ -35,6 +35,7 @@ const MyAppointments = ({ match }) => {
                                 <th>Status</th>
                                 <th>Doctor Name</th>
                                 <th>Appointment Date/Time</th>
+                                <th>Join Link</th>
                                 {/* <th>Action</th> */}
                             </tr>
                         </thead>
@@ -49,6 +50,12 @@ const MyAppointments = ({ match }) => {
                                         <td>{appointment.doctorId.name}</td>
                                         <td>{new Date(appointment.appointmentTime).toString()}</td>
                                         {/* <td><button>Cancel</button></td> */}
+                                        <td>
+                                            {appointment.status=='approved'&&appointment.meetingData?(
+                                                <a href={appointment.meetingData.join_url}>Join</a>
+                                            ):'N/A'}
+                                            
+                                        </td>
                                     </tr>
                                 )
                             )}

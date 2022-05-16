@@ -11,7 +11,7 @@ const {
     getManagers,
     getUsers,
     getAdminById,
-    updateFormUser, getLabattendants
+    updateFormUser, getLabattendants, deleteUser
 } = require("../controllers/user");
 const {
     addPatient
@@ -31,6 +31,7 @@ router.get("/users/labattendants", getLabattendants);
 router.get("/users/:userId", isSignedIn, isAuthenticated, getUsers);
 router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
 router.put("/user/:userId/:adminId", isAdmin, updateFormUser);
+router.delete("/user/:userId/:adminId", isAdmin, deleteUser);
 router.post("/changepassword/:userId", [
 
     check("newPassword", "password should be at least 3 chars").isLength({

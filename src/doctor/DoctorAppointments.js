@@ -108,10 +108,10 @@ const DoctorAppointments = () => {
                                                 Prescribtion
                                             </button></td>
                                             <td>
-                                            {appointment.status=='approved'&&appointment.meetingData?(
-                                                <a href={appointment.meetingData.start_url}>Start</a>
-                                            ):'N/A'}
-                                            
+                                                {appointment.status == 'approved' && appointment.meetingData ? (
+                                                    <a href={appointment.meetingData.start_url} target="_blank">Start</a>
+                                                ) : 'N/A'}
+
                                             </td>
                                         </tr>
 

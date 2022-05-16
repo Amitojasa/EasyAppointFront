@@ -301,3 +301,21 @@ exports.getUsers = (req, res) => {
         res.json(events);
     });
 }
+
+
+//delete user
+
+exports.deleteUser = (req, res) => {
+    let user = req.profile;
+    user.remove((err, deletedUser) => {
+        if (err) {
+            return res.status(400).json({
+                error: "Failed to delete the user"
+            });
+        }
+        res.json({
+            message: "Deletion was a success",
+            deletedUser
+        });
+    });
+};

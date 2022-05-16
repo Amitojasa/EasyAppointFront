@@ -96,10 +96,10 @@ const LabManageAppointments = () => {
                                             <button onClick={() => { updateStatus('approved', appointment._id, i) }}>Approve</button>
                                             <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button>
                                         </>) : appointment.status == 'approved' ? (<>
-                                            <button onClick={() => { updateStatus('in-progress', appointment._id, i) }}>Start/In progress</button>
+                                            <button onClick={() => { updateStatus('in-progress', appointment._id, i) }}>Mark Start/In progress</button>
                                             {/* <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button> */}
                                         </>) : appointment.status == 'in-progress' ? (<>
-                                            <button onClick={() => { updateStatus('completed', appointment._id, i) }}>Completed</button>
+                                            <button onClick={() => { updateStatus('completed', appointment._id, i) }}>Mark Completed</button>
                                             {/* <button onClick={() => { updateStatus('declined', appointment._id, i) }}>Decline</button> */}
                                         </>) : "NA"}</td>
                                     </tr>
